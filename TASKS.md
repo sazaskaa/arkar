@@ -12,8 +12,8 @@ Tarefas organizadas na ordem lógica de execução (passo a passo).
 
 ## 1. Tipos e Modelos (base compartilhada)
 
-- [ ] Criar interfaces e tipos TypeScript no backend (`backend/src/types/calculator.types.ts`) — [specs/tipos_modelos.md](specs/tipos_modelos.md)
-- [ ] Criar interfaces e tipos TypeScript no frontend (`frontend/src/types/calculator.types.ts`) — [specs/tipos_modelos.md](specs/tipos_modelos.md)
+- [x] Criar interfaces e tipos TypeScript no backend (`backend/src/types/calculator.types.ts`) — [specs/tipos_modelos.md](specs/tipos_modelos.md)
+- [x] Criar interfaces e tipos TypeScript no frontend (`frontend/src/types/calculator.types.ts`) — [specs/tipos_modelos.md](specs/tipos_modelos.md)
 
 ## 2. Lógica de Cálculo (backend)
 
