@@ -2,7 +2,7 @@
 
 ## Objetivo
 
-Criar um site chamado "Arkar" que compare se vale mais a pena **alugar** ou **comprar** um carro, considerando compra à vista e financiada.
+Criar um site chamado "Arkar" que compare se vale mais a pena **alugar** ou **comprar** um carro, considerando compra à vista e financiada (a ideia inicial é pelo menos ter campos tipo valor do carro, valor do aluguel mensal, taxa de juros, prazo do financiamento, que nos ajudem a chegar na conclusão se compensa mais alugar ou comprar um carro).
 
 ---
 
