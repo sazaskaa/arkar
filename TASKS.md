@@ -35,13 +35,13 @@ Tarefas organizadas na ordem lógica de execução (passo a passo).
 
 ## 6. Integração Frontend ↔ Backend
 
-- [ ] Criar o serviço de API no frontend com `fetch` e tratamento de erros (`frontend/src/services/api.service.ts`) — [specs/integracao_front_back.md](specs/integracao_front_back.md)
-- [ ] Implementar o `App.tsx` como orquestrador: estado, handler de submissão, renderização condicional do formulário e resultados — [specs/integracao_front_back.md](specs/integracao_front_back.md)
-- [ ] Criar arquivo `.env.example` no frontend com `VITE_API_URL` — [specs/integracao_front_back.md](specs/integracao_front_back.md)
+- [x] Criar o serviço de API no frontend com `fetch` e tratamento de erros (`frontend/src/services/api.service.ts`) — [specs/integracao_front_back.md](specs/integracao_front_back.md)
+- [x] Implementar o `App.tsx` como orquestrador: estado, handler de submissão, renderização condicional do formulário e resultados — [specs/integracao_front_back.md](specs/integracao_front_back.md)
+- [x] Criar arquivo `.env.example` no frontend com `VITE_API_URL` — [specs/integracao_front_back.md](specs/integracao_front_back.md)
 
 ## 7. Deploy
 
-- [ ] Configurar `.gitignore` na raiz do projeto — [specs/deploy.md](specs/deploy.md)
+- [x] Configurar `.gitignore` na raiz do projeto — [specs/deploy.md](specs/deploy.md)
 - [ ] Deploy do backend no Railway (configurar root directory, variáveis de ambiente, testar health check) — [specs/deploy.md](specs/deploy.md)
 - [ ] Deploy do frontend no Vercel (configurar root directory, `VITE_API_URL`, testar integração) — [specs/deploy.md](specs/deploy.md)
 - [ ] Validar integração em produção (CORS, formulário, cálculo end-to-end) — [specs/deploy.md](specs/deploy.md)

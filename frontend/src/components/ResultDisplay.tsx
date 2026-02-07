@@ -5,8 +5,8 @@ interface ResultDisplayProps {
 }
 
 const optionLabels: Record<CalculationResult["recommendation"], string> = {
-  cash: "Compra a Vista",
-  financing: "Compra Financiada",
+  cash: "Compra à vista",
+  financing: "Compra financiada",
   rental: "Aluguel",
 };
 
@@ -26,13 +26,13 @@ export function ResultDisplay({ result }: ResultDisplayProps) {
   const cards = [
     {
       key: "cash",
-      title: "Compra a Vista",
+      title: "Compra à vista",
       total: result.cash.total,
       meta: null,
     },
     {
       key: "financing",
-      title: "Compra Financiada",
+      title: "Compra financiada",
       total: result.financing.total,
       meta: `Parcela: ${formatCurrency(result.financing.monthlyPayment)}/mes`,
     },
@@ -49,9 +49,9 @@ export function ResultDisplay({ result }: ResultDisplayProps) {
       <div className="result-section">
         <header className="result-header">
           <p className="eyebrow">Resultado</p>
-          <h2 className="result-title">Comparacao de custos</h2>
+          <h2 className="result-title">Comparação de custos</h2>
           <p className="result-lead">
-            Veja o total estimado para cada opcao e a recomendacao com base no menor custo.
+            Veja o total estimado para cada opção e a recomendação com base no menor custo
           </p>
         </header>
 
@@ -59,7 +59,7 @@ export function ResultDisplay({ result }: ResultDisplayProps) {
           {cards.map((card) => {
             const isBest = card.key === result.recommendation;
             const ariaLabel = isBest
-              ? `${card.title} (melhor opcao)`
+              ? `${card.title} (melhor opção)`
               : card.title;
 
             return (
@@ -68,7 +68,7 @@ export function ResultDisplay({ result }: ResultDisplayProps) {
                 className={`result-card${isBest ? " result-card--best" : ""}`}
                 aria-label={ariaLabel}
               >
-                {isBest && <span className="result-badge">Melhor opcao</span>}
+                {isBest && <span className="result-badge">Melhor opção</span>}
                 <h3 className="result-card-title">{card.title}</h3>
                 <p className="result-card-value">{formatCurrency(card.total)}</p>
                 {card.meta && <p className="result-card-meta">{card.meta}</p>}
@@ -79,18 +79,18 @@ export function ResultDisplay({ result }: ResultDisplayProps) {
 
         <section className="result-recommendation">
           <p className="result-recommendation-title">
-            A melhor opcao e: <span>{recommendedLabel}</span>
+            A melhor opção é: <span>{recommendedLabel}</span>
           </p>
           <ul className="result-recommendation-list">
             {result.savings.vsFinancing > 0 && (
               <li>
-                Voce economiza <strong>{formatCurrency(result.savings.vsFinancing)}</strong> em relacao ao
-                financiamento.
+                Você economiza <strong>{formatCurrency(result.savings.vsFinancing)}</strong> em relação ao
+                financiamento
               </li>
             )}
             {result.savings.vsRental > 0 && (
               <li>
-                Voce economiza <strong>{formatCurrency(result.savings.vsRental)}</strong> em relacao ao aluguel.
+                Você economiza <strong>{formatCurrency(result.savings.vsRental)}</strong> em relação ao aluguel
               </li>
             )}
           </ul>

@@ -62,7 +62,6 @@ body {
 .calculator-lead {
 	color: var(--muted);
 	font-size: 1.05rem;
-	max-width: 32rem;
 }
 
 .form-card {
@@ -197,7 +196,6 @@ body {
 
 .result-lead {
 	color: var(--muted);
-	max-width: 32rem;
 }
 
 .result-grid {
