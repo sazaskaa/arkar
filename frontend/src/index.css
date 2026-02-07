@@ -1,3 +1,169 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+	--paper: #f7f3ee;
+	--ink: #1f1b16;
+	--muted: #6f655b;
+	--accent: #b85c38;
+	--accent-strong: #8f4427;
+	--border: #d8cec2;
+	--danger: #a63a2f;
+	--shadow: 0 20px 40px rgba(31, 27, 22, 0.12);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	min-height: 100vh;
+	background: radial-gradient(1200px circle at 10% 10%, #fff4e3 0%, #f7f3ee 45%, #efe8df 100%);
+	color: var(--ink);
+	font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+	line-height: 1.5;
+}
+
+#root {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 48px 20px;
+}
+
+.calculator-shell {
+	width: min(980px, 100%);
+	display: grid;
+	gap: 28px;
+}
+
+.calculator-header {
+	animation: fade-up 0.5s ease both;
+}
+
+.eyebrow {
+	letter-spacing: 0.24em;
+	text-transform: uppercase;
+	font-size: 0.72rem;
+	color: var(--muted);
+}
+
+.calculator-title {
+	font-family: "Fraunces", "Times New Roman", serif;
+	font-size: clamp(2.2rem, 3vw, 3.2rem);
+	margin: 8px 0 6px;
+}
+
+.calculator-lead {
+	color: var(--muted);
+	font-size: 1.05rem;
+	max-width: 32rem;
+}
+
+.form-card {
+	background: #fffaf4;
+	border: 1px solid var(--border);
+	border-radius: 24px;
+	padding: 28px;
+	box-shadow: var(--shadow);
+	animation: fade-up 0.6s ease both;
+	animation-delay: 0.08s;
+}
+
+.field-grid {
+	display: grid;
+	gap: 18px;
+	grid-template-columns: 1fr;
+}
+
+.field {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.field label {
+	font-weight: 600;
+	font-size: 0.95rem;
+}
+
+.field input {
+	padding: 12px 14px;
+	border-radius: 12px;
+	border: 1px solid var(--border);
+	background: #ffffff;
+	font-size: 0.98rem;
+	transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field input:focus {
+	outline: none;
+	border-color: var(--accent);
+	box-shadow: 0 0 0 3px rgba(184, 92, 56, 0.15);
+}
+
+.input-error {
+	border-color: var(--danger);
+	box-shadow: 0 0 0 3px rgba(166, 58, 47, 0.14);
+}
+
+.field-error {
+	color: var(--danger);
+	font-size: 0.85rem;
+}
+
+.optional-text {
+	color: var(--muted);
+	font-weight: 500;
+	font-size: 0.85rem;
+}
+
+.submit-row {
+	margin-top: 20px;
+}
+
+.submit-btn {
+	width: 100%;
+	padding: 14px 18px;
+	border-radius: 14px;
+	border: none;
+	background: var(--accent);
+	color: #ffffff;
+	font-weight: 600;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.submit-btn:hover {
+	background: var(--accent-strong);
+	transform: translateY(-1px);
+}
+
+.submit-btn:disabled {
+	background: #c8b9ae;
+	cursor: not-allowed;
+	transform: none;
+}
+
+@keyframes fade-up {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (min-width: 768px) {
+	.field-grid {
+		grid-template-columns: 1fr 1fr;
+	}
+}

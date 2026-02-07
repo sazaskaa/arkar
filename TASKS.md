@@ -27,7 +27,7 @@ Tarefas organizadas na ordem lógica de execução (passo a passo).
 
 ## 4. Formulário Frontend
 
-- [ ] Criar o componente `CalculatorForm` com campos, validação local, layout responsivo e acessibilidade (`frontend/src/components/CalculatorForm.tsx`) — [specs/formulario_frontend.md](specs/formulario_frontend.md)
+- [x] Criar o componente `CalculatorForm` com campos, validação local, layout responsivo e acessibilidade (`frontend/src/components/CalculatorForm.tsx`) — [specs/formulario_frontend.md](specs/formulario_frontend.md)
 
 ## 5. Exibição de Resultados Frontend
 
