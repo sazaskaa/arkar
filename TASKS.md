@@ -22,8 +22,8 @@ Tarefas organizadas na ordem lógica de execução (passo a passo).
 
 ## 3. API Backend (servidor e rotas)
 
-- [ ] Configurar o servidor Express com CORS, body parser e health check (`backend/src/index.ts`) — [specs/api_backend.md](specs/api_backend.md)
-- [ ] Implementar a rota `POST /api/calculate` com validações e tratamento de erros (`backend/src/routes/calculator.routes.ts`) — [specs/api_backend.md](specs/api_backend.md)
+- [x] Configurar o servidor Express com CORS, body parser e health check (`backend/src/index.ts`) — [specs/api_backend.md](specs/api_backend.md)
+- [x] Implementar a rota `POST /api/calculate` com validações e tratamento de erros (`backend/src/routes/calculator.routes.ts`) — [specs/api_backend.md](specs/api_backend.md)
 
 ## 4. Formulário Frontend
 
