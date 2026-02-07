@@ -17,8 +17,8 @@ Tarefas organizadas na ordem lógica de execução (passo a passo).
 
 ## 2. Lógica de Cálculo (backend)
 
-- [ ] Implementar o serviço de cálculo com as fórmulas de compra à vista, financiamento (Price) e aluguel (`backend/src/services/calculator.service.ts`) — [specs/logica_calculo.md](specs/logica_calculo.md)
-- [ ] Implementar a lógica de recomendação (menor custo) e cálculo de economia (savings) — [specs/logica_calculo.md](specs/logica_calculo.md)
+- [x] Implementar o serviço de cálculo com as fórmulas de compra à vista, financiamento (Price) e aluguel (`backend/src/services/calculator.service.ts`) — [specs/logica_calculo.md](specs/logica_calculo.md)
+- [x] Implementar a lógica de recomendação (menor custo) e cálculo de economia (savings) — [specs/logica_calculo.md](specs/logica_calculo.md)
 
 ## 3. API Backend (servidor e rotas)
 
