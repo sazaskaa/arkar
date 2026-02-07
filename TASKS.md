@@ -31,7 +31,7 @@ Tarefas organizadas na ordem lógica de execução (passo a passo).
 
 ## 5. Exibição de Resultados Frontend
 
-- [ ] Criar o componente `ResultDisplay` com cards de resultado, destaque da melhor opção, seção de recomendação e formatação monetária (`frontend/src/components/ResultDisplay.tsx`) — [specs/exibicao_resultados.md](specs/exibicao_resultados.md)
+- [x] Criar o componente `ResultDisplay` com cards de resultado, destaque da melhor opção, seção de recomendação e formatação monetária (`frontend/src/components/ResultDisplay.tsx`) — [specs/exibicao_resultados.md](specs/exibicao_resultados.md)
 
 ## 6. Integração Frontend ↔ Backend
 
