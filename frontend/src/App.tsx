@@ -6,6 +6,7 @@
  */
 import { RotateCcw } from "lucide-react";
 import { CalculatorForm } from "./components/CalculatorForm";
+import { Header } from "./components/Header";
 import { ResultDisplay } from "./components/ResultDisplay";
 import { ResultOverlay } from "./components/ResultOverlay";
 import { useCalculatorApp } from "./hooks/useCalculatorApp";
@@ -24,7 +25,10 @@ function App() {
 
   return (
     <>
-      <CalculatorForm onSubmit={handleCalculate} isLoading={isLoading} />
+      <Header />
+      <main className="app-content">
+        <CalculatorForm onSubmit={handleCalculate} isLoading={isLoading} />
+      </main>
       {error && (
         <ResultOverlay isClosing={isClosing} onClose={handleCloseError}>
           <section className="result-shell" aria-live="polite">
