@@ -33,14 +33,19 @@ const initialState: FormState = {
   comparisonPeriod: "",
 };
 
-const parseNumber = (value: string) => Number(value);
+const parseNumber = (value: string) => {
+  const num = Number(value);
+  return Number.isNaN(num) ? NaN : num;
+};
 
 const hasValue = (value: string) => value.trim() !== "";
 
-const isPositive = (value: string) => hasValue(value) && parseNumber(value) > 0;
+const isNumeric = (value: string) => hasValue(value) && !Number.isNaN(parseNumber(value));
+
+const isPositive = (value: string) => isNumeric(value) && parseNumber(value) > 0;
 
 const isPositiveInteger = (value: string) => {
-  if (!hasValue(value)) {
+  if (!isNumeric(value)) {
     return false;
   }
   const numericValue = parseNumber(value);
@@ -67,15 +72,23 @@ const validateForm = (state: FormState): FormErrors => {
   }
 
   if (hasValue(state.downPayment)) {
-    const downPaymentValue = parseNumber(state.downPayment);
-    const carPriceValue = parseNumber(state.carPrice);
-    if (downPaymentValue < 0 || (carPriceValue > 0 && downPaymentValue >= carPriceValue)) {
-      errors.downPayment = "A entrada deve ser menor que o valor do carro";
+    if (!isNumeric(state.downPayment)) {
+      errors.downPayment = "Informe um valor numérico válido";
+    } else {
+      const downPaymentValue = parseNumber(state.downPayment);
+      const carPriceValue = parseNumber(state.carPrice);
+      if (downPaymentValue < 0 || (carPriceValue > 0 && downPaymentValue >= carPriceValue)) {
+        errors.downPayment = "A entrada deve ser menor que o valor do carro";
+      }
     }
   }
 
-  if (hasValue(state.comparisonPeriod) && !isPositiveInteger(state.comparisonPeriod)) {
-    errors.comparisonPeriod = "Informe um período válido em meses";
+  if (hasValue(state.comparisonPeriod)) {
+    if (!isNumeric(state.comparisonPeriod)) {
+      errors.comparisonPeriod = "Informe um valor numérico válido";
+    } else if (!isPositiveInteger(state.comparisonPeriod)) {
+      errors.comparisonPeriod = "Informe um período válido em meses";
+    }
   }
 
   return errors;

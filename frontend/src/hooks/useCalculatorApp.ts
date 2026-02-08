@@ -4,6 +4,7 @@
  */
 import { useState } from "react";
 import { calculateComparison } from "../services/api.service";
+import { ApiError } from "../types/calculator.types";
 import type { CalculationInput, CalculationResult } from "../types/calculator.types";
 
 const GENERIC_ERROR_MESSAGE = "Ocorreu um erro ao calcular. Tente novamente.";
@@ -23,8 +24,9 @@ export function useCalculatorApp() {
       const nextResult = await calculateComparison(input);
       setLastInput(input);
       setResult(nextResult);
-    } catch {
-      setError(GENERIC_ERROR_MESSAGE);
+    } catch (err) {
+      const message = err instanceof ApiError ? err.message : GENERIC_ERROR_MESSAGE;
+      setError(message);
       setResult(null);
     } finally {
       setIsLoading(false);
@@ -39,6 +41,14 @@ export function useCalculatorApp() {
     }, 300);
   };
 
+  const handleCloseError = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setError(null);
+      setIsClosing(false);
+    }, 300);
+  };
+
   return {
     result,
     lastInput,
@@ -47,5 +57,6 @@ export function useCalculatorApp() {
     isClosing,
     handleCalculate,
     handleCloseResult,
+    handleCloseError,
   };
 }

@@ -4,12 +4,7 @@
  */
 import { useMemo } from "react";
 import type { CalculationResult } from "../types/calculator.types";
-
-const formatCurrency = (value: number) =>
-  new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  }).format(value);
+import { formatCurrency } from "../utils/format";
 
 export function useResultCalculations(result: CalculationResult) {
   const cards = useMemo(() => [
@@ -35,5 +30,5 @@ export function useResultCalculations(result: CalculationResult) {
 
   const maxTotal = useMemo(() => Math.max(...cards.map((c) => c.total)), [cards]);
 
-  return { cards, maxTotal, formatCurrency };
+  return { cards, maxTotal };
 }

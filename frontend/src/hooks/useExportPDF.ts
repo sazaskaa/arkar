@@ -1,11 +1,14 @@
 /**
  * Hook customizado para gerenciar a exportação de relatórios em PDF.
- * Lida com a geração de canvas e download do arquivo.
+ * Lida com a geração de canvas e download do arquivo, incluindo feedback de erro.
  */
 import { useState } from "react";
 
+const EXPORT_ERROR_MESSAGE = "Não foi possível gerar o PDF. Tente novamente.";
+
 export function useExportPDF() {
   const [isExporting, setIsExporting] = useState(false);
+  const [exportError, setExportError] = useState<string | null>(null);
 
   const exportReport = async (element: HTMLElement) => {
     if (isExporting) return;
@@ -81,11 +84,14 @@ export function useExportPDF() {
       pdf.save("relatorio-arkar.pdf");
     } catch (err) {
       console.error("Erro ao exportar PDF:", err);
+      setExportError(EXPORT_ERROR_MESSAGE);
     } finally {
       document.body.removeChild(iframe);
       setIsExporting(false);
     }
   };
 
-  return { isExporting, exportReport };
+  const clearExportError = () => setExportError(null);
+
+  return { isExporting, exportError, clearExportError, exportReport };
 }

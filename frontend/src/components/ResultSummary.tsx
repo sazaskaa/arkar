@@ -4,24 +4,13 @@
  */
 import { TrendingUp, Check } from "lucide-react";
 import type { CalculationResult } from "../types/calculator.types";
+import { formatCurrency, optionLabels } from "../utils/format";
 
 interface ResultSummaryProps {
   result: CalculationResult;
 }
 
-const formatCurrency = (value: number) =>
-  new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  }).format(value);
-
 export function ResultSummary({ result }: ResultSummaryProps) {
-  const optionLabels: Record<CalculationResult["recommendation"], string> = {
-    cash: "Compra à vista",
-    financing: "Compra financiada",
-    rental: "Aluguel",
-  };
-
   const recommendedLabel = optionLabels[result.recommendation];
 
   return (

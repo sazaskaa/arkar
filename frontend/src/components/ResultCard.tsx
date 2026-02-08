@@ -2,6 +2,8 @@
  * Componente para exibir uma opção de resultado (compra, financiamento ou aluguel).
  * Mostra título, valor total, metadados e barra de progresso visual.
  */
+import { formatCurrency } from "../utils/format";
+
 interface ResultCardProps {
   card: {
     key: "cash" | "financing" | "rental";
@@ -12,12 +14,6 @@ interface ResultCardProps {
   isBest: boolean;
   maxTotal: number;
 }
-
-const formatCurrency = (value: number) =>
-  new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  }).format(value);
 
 export function ResultCard({ card, isBest, maxTotal }: ResultCardProps) {
   const barWidth = maxTotal > 0 ? (card.total / maxTotal) * 100 : 0;

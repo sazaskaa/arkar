@@ -4,6 +4,7 @@
  * integra o formulário de cálculo com a exibição de resultados, e controla
  * transições de sobreposição modal. Centro nevrálgico da lógica de apresentação.
  */
+import { RotateCcw } from "lucide-react";
 import { CalculatorForm } from "./components/CalculatorForm";
 import { ResultDisplay } from "./components/ResultDisplay";
 import { ResultOverlay } from "./components/ResultOverlay";
@@ -18,13 +19,14 @@ function App() {
     isClosing,
     handleCalculate,
     handleCloseResult,
+    handleCloseError,
   } = useCalculatorApp();
 
   return (
     <>
       <CalculatorForm onSubmit={handleCalculate} isLoading={isLoading} />
       {error && (
-        <ResultOverlay isClosing={isClosing}>
+        <ResultOverlay isClosing={isClosing} onClose={handleCloseError}>
           <section className="result-shell" aria-live="polite">
             <div className="result-section">
               <header className="result-header">
@@ -32,12 +34,20 @@ function App() {
                 <h2 className="result-title">Não foi possível calcular</h2>
                 <p className="result-lead">{error}</p>
               </header>
+              <button
+                type="button"
+                onClick={handleCloseError}
+                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-800 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-900"
+              >
+                <RotateCcw className="h-4 w-4" strokeWidth={1.6} />
+                Tentar novamente
+              </button>
             </div>
           </section>
         </ResultOverlay>
       )}
       {result && (
-        <ResultOverlay isClosing={isClosing}>
+        <ResultOverlay isClosing={isClosing} onClose={handleCloseResult}>
           <ResultDisplay result={result} input={lastInput} onClose={handleCloseResult} />
         </ResultOverlay>
       )}
