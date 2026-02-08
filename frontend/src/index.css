@@ -281,6 +281,43 @@ body {
 	}
 }
 
+@keyframes fade-down {
+	from {
+		opacity: 1;
+		transform: translateY(0);
+	}
+	to {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+}
+
+@keyframes overlay-in {
+	from {
+		opacity: 0;
+		backdrop-filter: blur(0px);
+		-webkit-backdrop-filter: blur(0px);
+	}
+	to {
+		opacity: 1;
+		backdrop-filter: blur(6px);
+		-webkit-backdrop-filter: blur(6px);
+	}
+}
+
+@keyframes overlay-out {
+	from {
+		opacity: 1;
+		backdrop-filter: blur(6px);
+		-webkit-backdrop-filter: blur(6px);
+	}
+	to {
+		opacity: 0;
+		backdrop-filter: blur(0px);
+		-webkit-backdrop-filter: blur(0px);
+	}
+}
+
 @media (min-width: 768px) {
 	.field-grid {
 		grid-template-columns: 1fr 1fr;
@@ -289,7 +326,12 @@ body {
 
 .result-shell {
 	width: min(980px, 100%);
-	margin: 24px auto 0;
+	margin: 0;
+	animation: fade-up 0.5s ease both;
+}
+
+.result-shell--closing {
+	animation: fade-down 0.3s ease forwards;
 }
 
 .result-section {
@@ -397,6 +439,36 @@ body {
 	color: var(--muted);
 	display: grid;
 	gap: 6px;
+}
+
+.result-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(15, 23, 42, 0.45);
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 24px 20px;
+	z-index: 50;
+	animation: overlay-in 0.4s ease both;
+}
+
+.result-overlay--closing {
+	animation: overlay-out 0.3s ease forwards;
+}
+
+@media (max-width: 640px) {
+	.result-overlay {
+		padding: 16px;
+	}
+}
+
+@media (max-width: 640px) {
+	.result-overlay {
+		padding: 16px;
+	}
 }
 
 .result-recommendation-list strong {

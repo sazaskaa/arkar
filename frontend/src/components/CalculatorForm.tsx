@@ -149,7 +149,7 @@ export function CalculatorForm({ onSubmit, isLoading }: CalculatorFormProps) {
                     id="carPrice"
                     name="carPrice"
                     type="number"
-                    placeholder="Ex: 50000"
+                    placeholder="Ex: 120000"
                     value={formState.carPrice}
                     onChange={handleChange}
                     className={errors.carPrice ? "input-control input-error" : "input-control"}
@@ -173,7 +173,7 @@ export function CalculatorForm({ onSubmit, isLoading }: CalculatorFormProps) {
                     id="monthlyRent"
                     name="monthlyRent"
                     type="number"
-                    placeholder="Ex: 2000"
+                    placeholder="Ex: 2500"
                     value={formState.monthlyRent}
                     onChange={handleChange}
                     className={errors.monthlyRent ? "input-control input-error" : "input-control"}
