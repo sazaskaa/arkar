@@ -39,9 +39,9 @@ export function CalculatorForm({ onSubmit, isLoading }: CalculatorFormProps) {
               <FormInputField
                 id="carPrice"
                 name="carPrice"
-                type="number"
+                type="text"
                 label="Valor do carro (R$)"
-                placeholder="Ex: 120000"
+                placeholder="Ex: 120.000"
                 value={formState.carPrice}
                 onChange={handleChange}
                 error={errors.carPrice}
@@ -50,9 +50,9 @@ export function CalculatorForm({ onSubmit, isLoading }: CalculatorFormProps) {
               <FormInputField
                 id="monthlyRent"
                 name="monthlyRent"
-                type="number"
+                type="text"
                 label="Aluguel mensal (R$)"
-                placeholder="Ex: 2500"
+                placeholder="Ex: 2.500"
                 value={formState.monthlyRent}
                 onChange={handleChange}
                 error={errors.monthlyRent}
@@ -101,9 +101,9 @@ export function CalculatorForm({ onSubmit, isLoading }: CalculatorFormProps) {
               <FormInputField
                 id="downPayment"
                 name="downPayment"
-                type="number"
+                type="text"
                 label="Entrada (R$)"
-                placeholder="Ex: 10000"
+                placeholder="Ex: 10.000"
                 value={formState.downPayment}
                 onChange={handleChange}
                 error={errors.downPayment}

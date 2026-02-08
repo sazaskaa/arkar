@@ -5,6 +5,7 @@
 import { useState } from "react";
 import type { FormEvent, ChangeEvent } from "react";
 import type { CalculationInput } from "../types/calculator.types";
+import { formatNumberForInput, parseFormattedNumber } from "../utils/format";
 
 interface FormState {
   carPrice: string;
@@ -55,39 +56,56 @@ const isPositiveInteger = (value: string) => {
 const validateForm = (state: FormState): FormErrors => {
   const errors: FormErrors = {};
 
-  if (!isPositive(state.carPrice)) {
-    errors.carPrice = "Informe um valor maior que zero";
-  }
+  // Define regras de validação por campo
+  const validationRules: Array<{
+    field: keyof FormState;
+    validator: (value: string, fullState?: FormState) => string | undefined;
+  }> = [
+    {
+      field: 'carPrice',
+      validator: (value) => (!isPositive(value) ? "Informe um valor maior que zero" : undefined),
+    },
+    {
+      field: 'monthlyRent',
+      validator: (value) => (!isPositive(value) ? "Informe um valor maior que zero" : undefined),
+    },
+    {
+      field: 'interestRate',
+      validator: (value) => (!isPositive(value) ? "Informe uma taxa maior que zero" : undefined),
+    },
+    {
+      field: 'financingTerm',
+      validator: (value) => (!isPositiveInteger(value) ? "Informe um prazo válido em meses" : undefined),
+    },
+    {
+      field: 'downPayment',
+      validator: (value, fullState) => {
+        if (!hasValue(value)) return undefined;
+        if (!isNumeric(value)) return "Informe um valor numérico válido";
+        const downPaymentValue = parseNumber(value);
+        const carPriceValue = parseNumber(fullState!.carPrice);
+        if (downPaymentValue < 0 || (carPriceValue > 0 && downPaymentValue >= carPriceValue)) {
+          return "A entrada deve ser menor que o valor do carro";
+        }
+        return undefined;
+      },
+    },
+    {
+      field: 'comparisonPeriod',
+      validator: (value) => {
+        if (!hasValue(value)) return undefined;
+        if (!isNumeric(value)) return "Informe um valor numérico válido";
+        if (!isPositiveInteger(value)) return "Informe um período válido em meses";
+        return undefined;
+      },
+    },
+  ];
 
-  if (!isPositive(state.monthlyRent)) {
-    errors.monthlyRent = "Informe um valor maior que zero";
-  }
-
-  if (!isPositive(state.interestRate)) {
-    errors.interestRate = "Informe uma taxa maior que zero";
-  }
-
-  if (!isPositiveInteger(state.financingTerm)) {
-    errors.financingTerm = "Informe um prazo válido em meses";
-  }
-
-  if (hasValue(state.downPayment)) {
-    if (!isNumeric(state.downPayment)) {
-      errors.downPayment = "Informe um valor numérico válido";
-    } else {
-      const downPaymentValue = parseNumber(state.downPayment);
-      const carPriceValue = parseNumber(state.carPrice);
-      if (downPaymentValue < 0 || (carPriceValue > 0 && downPaymentValue >= carPriceValue)) {
-        errors.downPayment = "A entrada deve ser menor que o valor do carro";
-      }
-    }
-  }
-
-  if (hasValue(state.comparisonPeriod)) {
-    if (!isNumeric(state.comparisonPeriod)) {
-      errors.comparisonPeriod = "Informe um valor numérico válido";
-    } else if (!isPositiveInteger(state.comparisonPeriod)) {
-      errors.comparisonPeriod = "Informe um período válido em meses";
+  // Aplica as validações
+  for (const { field, validator } of validationRules) {
+    const error = validator(state[field], state);
+    if (error) {
+      errors[field] = error;
     }
   }
 
@@ -96,14 +114,33 @@ const validateForm = (state: FormState): FormErrors => {
 
 export function useCalculatorForm(onSubmit: (data: CalculationInput) => void) {
   const [formState, setFormState] = useState<FormState>(initialState);
+  const [displayState, setDisplayState] = useState<FormState>(initialState);
   const [errors, setErrors] = useState<FormErrors>({});
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setFormState((previous) => ({
-      ...previous,
-      [name]: value,
-    }));
+    if (name === 'carPrice' || name === 'monthlyRent' || name === 'downPayment') {
+      const cleaned = parseFormattedNumber(value);
+      setFormState((previous) => ({
+        ...previous,
+        [name]: cleaned,
+      }));
+      const num = parseFloat(cleaned);
+      const formatted = isNaN(num) ? '' : formatNumberForInput(num);
+      setDisplayState((previous) => ({
+        ...previous,
+        [name]: formatted,
+      }));
+    } else {
+      setFormState((previous) => ({
+        ...previous,
+        [name]: value,
+      }));
+      setDisplayState((previous) => ({
+        ...previous,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -134,7 +171,7 @@ export function useCalculatorForm(onSubmit: (data: CalculationInput) => void) {
   };
 
   return {
-    formState,
+    formState: displayState,
     errors,
     handleChange,
     handleSubmit,

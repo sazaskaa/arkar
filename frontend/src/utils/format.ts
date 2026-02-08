@@ -14,6 +14,25 @@ export const formatCurrency = (value: number) =>
   }).format(value);
 
 /**
+ * Formata um número para exibição em campos de entrada, com separadores de milhares.
+ */
+export const formatNumberForInput = (value: number): string => {
+  if (isNaN(value)) return '';
+  return new Intl.NumberFormat("pt-BR", {
+    style: "decimal",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(value);
+};
+
+/**
+ * Remove formatação de número (pontos e vírgulas) para obter o valor numérico como string.
+ */
+export const parseFormattedNumber = (value: string): string => {
+  return value.replace(/\./g, '').replace(',', '');
+};
+
+/**
  * Mapeamento entre a chave de recomendação e o label legível para o usuário.
  */
 export const optionLabels: Record<CalculationResult["recommendation"], string> = {
