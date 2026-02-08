@@ -2,6 +2,12 @@
 applyTo: '**'
 ---
 
+### ### ### ### ### ### ### ###
+### INSTRUÇÃO DESCONTINUADA ###
+### ### ### ### ### ### ### ###
+
+
+
 # Instruções do Projeto Arkar (Copilot)
 
 ## Sobre o Projeto

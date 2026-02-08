@@ -11,6 +11,7 @@ Criar um site chamado "Arkar" que compare se vale mais a pena **alugar** ou **co
 | Camada           | Tecnologia                            | Justificativa                                                                                |
 | ---------------- | ------------------------------------- | -------------------------------------------------------------------------------------------- |
 | **Frontend**     | React + TypeScript + Vite             | Vite é mais rápido e leve que CRA, TypeScript garante tipagem                                |
+| **Estilos**      | CSS + Tailwind (configurado)          | Base pronta para utilitários, mas a UI atual usa CSS customizado                             |
 | **Backend**      | Node.js + Express + TypeScript + CORS | API simples e performática, TS para consistência, CORS para permitir requisições do frontend |
 | **Deploy Front** | Vercel                                | Gratuito, integração nativa com React                                                        |
 | **Deploy Back**  | Railway                               | Gratuito (tier hobby), fácil deploy de Node.js                                               |
@@ -21,38 +22,46 @@ Criar um site chamado "Arkar" que compare se vale mais a pena **alugar** ou **co
 
 ```
 arkar/
-├── .git/
+├── .git/                      # Historico do repositorio
+├── .github/                   # Instrucoes internas e skills do agente
+├── .vscode/                   # Preferencias locais do VS Code
 ├── .gitignore
 ├── PRD.md
-├── frontend/                 # Projeto React + Vite
-│   ├── public/
+├── TASKS.md                   # Checklist de implementacao (concluido)
+├── specs/                     # Especificacoes detalhadas por feature
+├── backend/                   # API Express + TypeScript
 │   ├── src/
-│   │   ├── assets/
-│   │   ├── components/       # Componentes React (planejado)
-│   │   ├── services/         # Chamadas à API (planejado)
-│   │   ├── types/            # Tipos TypeScript (planejado)
-│   │   ├── App.css
-│   │   ├── App.tsx
-│   │   ├── index.css
-│   │   └── main.tsx
-│   ├── eslint.config.js
-│   ├── index.html
+│   │   ├── routes/            # Rotas HTTP (POST /api/calculate)
+│   │   ├── services/          # Logica de calculo e recomendacao
+│   │   ├── types/             # Tipos e erros compartilhados da API
+│   │   └── index.ts           # Bootstrap do servidor + CORS + health check
 │   ├── package.json
 │   ├── package-lock.json
-│   ├── README.md
-│   ├── tsconfig.app.json
-│   ├── tsconfig.json
-│   ├── tsconfig.node.json
-│   └── vite.config.ts
-└── backend/                  # Projeto Express
-  ├── src/
-  │   ├── routes/           # Rotas da API (planejado)
-  │   ├── services/         # Logica de calculo (planejado)
-  │   ├── types/            # Tipos TypeScript (planejado)
-  │   └── index.ts
-  ├── package.json
-  ├── package-lock.json
-  └── tsconfig.json
+│   └── tsconfig.json
+└── frontend/                  # React + Vite + TypeScript
+    ├── .env                   # Variaveis locais (nao versionar)
+    ├── .env.example           # Template de variaveis para o frontend
+    ├── public/
+    ├── src/
+    │   ├── assets/
+    │   ├── components/        # Formulario e exibicao de resultados
+    │   ├── services/          # Client HTTP (fetch) para a API
+    │   ├── types/             # Tipos TypeScript compartilhados no frontend
+    │   ├── App.css
+    │   ├── App.tsx
+    │   ├── index.css          # Tema visual e layout
+    │   └── main.tsx
+    ├── eslint.config.js
+    ├── index.html
+    ├── package.json
+    ├── package-lock.json
+    ├── README.md
+    ├── postcss.config.js
+    ├── tailwind.config.js
+    ├── tsconfig.app.json
+    ├── tsconfig.json
+    ├── tsconfig.node.json
+    └── vite.config.ts
 ```
 
 ---
@@ -129,6 +138,32 @@ arkar/
 }
 ```
 
+**Erros de validacao (HTTP 400):**
+
+```json
+{
+  "error": "Dados de entrada invalidos",
+  "details": [
+    {
+      "field": "carPrice",
+      "message": "O valor do carro e obrigatorio e deve ser maior que zero"
+    },
+    {
+      "field": "financingTerm",
+      "message": "O prazo do financiamento e obrigatorio e deve ser um inteiro maior que zero"
+    }
+  ]
+}
+```
+
+**Erro interno (HTTP 500):**
+
+```json
+{
+  "error": "Erro interno do servidor"
+}
+```
+
 ---
 
 ## Interface (Simples e Funcional)
@@ -144,21 +179,16 @@ arkar/
 
 ## Deploy
 
-| Serviço           | URL (após deploy)               |
-| ----------------- | ------------------------------- |
-| Frontend (Vercel) | `https://[nome].vercel.app`     |
-| Backend (Railway) | `https://[nome].up.railway.app` |
+| Serviço           | URL (após deploy)                              |
+| ----------------- | -----------------------------------------------|
+| Frontend (Vercel) | `https://arkar-eight.vercel.app/`              |
+| Backend (Railway) | `https://arkar-production.up.railway.app`      |
 
 ---
 
-## Etapas de Desenvolvimento
+## Status Atual
 
-1. **Setup inicial** - Criar projetos frontend e backend
-2. **Backend** - Implementar endpoint de cálculo
-3. **Frontend** - Criar formulário e exibição de resultados
-4. **Integração** - Conectar front com back
-5. **README** - Documentar como rodar local
-6. **Deploy** - Publicar em Vercel + Railway
+MVP implementado (frontend, backend e integração). Consulte TASKS.md e specs/ para detalhes técnicos e checklist finalizado.
 
 ---
 
@@ -175,6 +205,11 @@ cd frontend
 npm install
 npm run dev   # Roda em http://localhost:5173
 ```
+
+### Variaveis de ambiente
+
+- Backend: PORT e FRONTEND_URL (usado em producao para CORS)
+- Frontend: VITE_API_URL (URL base do backend)
 
 ---
 
