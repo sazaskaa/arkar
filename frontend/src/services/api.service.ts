@@ -1,3 +1,9 @@
+/**
+ * Serviço de integração com a API do backend.
+ * Responsável por gerenciar todas as chamadas de API, incluindo envio de dados de cálculo,
+ * tratamento de erros e parsing seguro de respostas. Oferece abstração para requisições
+ * HTTP e uma interface tipada com TypeScript para garantir segurança em tempo de desenvolvimento.
+ */
 import { ApiError } from "../types/calculator.types";
 import type {
   CalculationInput,
@@ -13,7 +19,7 @@ type ErrorResponse = {
 };
 
 const GENERIC_ERROR_MESSAGE = "Ocorreu um erro ao calcular. Tente novamente.";
-const NETWORK_ERROR_MESSAGE = "Nao foi possivel conectar ao servidor";
+const NETWORK_ERROR_MESSAGE = "Não foi possível conectar ao servidor";
 
 async function parseJsonSafe<T>(response: Response): Promise<T | null> {
   try {

@@ -1,321 +1,143 @@
-import { useState } from "react";
+/**
+ * Componente principal do formulário de cálculo do comparador Arkar.
+ * Gerencia a entrada de dados do usuário para comparar custos de compra, financiamento e aluguel de carro.
+ */
 import { Car, Calendar, DollarSign, Percent, Clock, Repeat2, Calculator } from "lucide-react";
 import type { CalculationInput } from "../types/calculator.types";
+import { FormInputField } from "./FormInputField";
+import { FormSectionHeader } from "./FormSectionHeader";
+import { useCalculatorForm } from "../hooks/useCalculatorForm";
 
 interface CalculatorFormProps {
   onSubmit: (data: CalculationInput) => void;
   isLoading: boolean;
 }
 
-interface FormState {
-  carPrice: string;
-  monthlyRent: string;
-  interestRate: string;
-  financingTerm: string;
-  downPayment: string;
-  comparisonPeriod: string;
-}
-
-interface FormErrors {
-  carPrice?: string;
-  monthlyRent?: string;
-  interestRate?: string;
-  financingTerm?: string;
-  downPayment?: string;
-  comparisonPeriod?: string;
-}
-
-const initialState: FormState = {
-  carPrice: "",
-  monthlyRent: "",
-  interestRate: "",
-  financingTerm: "",
-  downPayment: "",
-  comparisonPeriod: "",
-};
-
-const parseNumber = (value: string) => Number(value);
-
-const hasValue = (value: string) => value.trim() !== "";
-
-const isPositive = (value: string) => hasValue(value) && parseNumber(value) > 0;
-
-const isPositiveInteger = (value: string) => {
-  if (!hasValue(value)) {
-    return false;
-  }
-  const numericValue = parseNumber(value);
-  return Number.isInteger(numericValue) && numericValue > 0;
-};
-
-const validateForm = (state: FormState): FormErrors => {
-  const errors: FormErrors = {};
-
-  if (!isPositive(state.carPrice)) {
-    errors.carPrice = "Informe um valor maior que zero";
-  }
-
-  if (!isPositive(state.monthlyRent)) {
-    errors.monthlyRent = "Informe um valor maior que zero";
-  }
-
-  if (!isPositive(state.interestRate)) {
-    errors.interestRate = "Informe uma taxa maior que zero";
-  }
-
-  if (!isPositiveInteger(state.financingTerm)) {
-    errors.financingTerm = "Informe um prazo válido em meses";
-  }
-
-  if (hasValue(state.downPayment)) {
-    const downPaymentValue = parseNumber(state.downPayment);
-    const carPriceValue = parseNumber(state.carPrice);
-    if (downPaymentValue < 0 || (carPriceValue > 0 && downPaymentValue >= carPriceValue)) {
-      errors.downPayment = "A entrada deve ser menor que o valor do carro";
-    }
-  }
-
-  if (hasValue(state.comparisonPeriod) && !isPositiveInteger(state.comparisonPeriod)) {
-    errors.comparisonPeriod = "Informe um período válido em meses";
-  }
-
-  return errors;
-};
-
 export function CalculatorForm({ onSubmit, isLoading }: CalculatorFormProps) {
-  const [formState, setFormState] = useState<FormState>(initialState);
-  const [errors, setErrors] = useState<FormErrors>({});
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormState((previous) => ({
-      ...previous,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const nextErrors = validateForm(formState);
-    setErrors(nextErrors);
-
-    if (Object.keys(nextErrors).length > 0) {
-      return;
-    }
-
-    const financingTermValue = parseNumber(formState.financingTerm);
-    const comparisonPeriodValue = hasValue(formState.comparisonPeriod)
-      ? parseNumber(formState.comparisonPeriod)
-      : financingTermValue;
-    const downPaymentValue = hasValue(formState.downPayment)
-      ? parseNumber(formState.downPayment)
-      : 0;
-
-    onSubmit({
-      carPrice: parseNumber(formState.carPrice),
-      monthlyRent: parseNumber(formState.monthlyRent),
-      interestRate: parseNumber(formState.interestRate),
-      financingTerm: financingTermValue,
-      downPayment: downPaymentValue,
-      comparisonPeriod: comparisonPeriodValue,
-    });
-  };
+  const { formState, errors, handleChange, handleSubmit } = useCalculatorForm(onSubmit);
 
   return (
-    <section className="calculator-shell">
-      <header className="calculator-header">
-        <p className="eyebrow">Comparador Arkar</p>
-        <h1 className="calculator-title">Comprar ou alugar?</h1>
-        <p className="calculator-lead">
+    <section className="mx-auto grid w-full max-w-[880px] gap-7">
+      <header className="text-center animate-[fade-up_0.5s_ease_both]">
+        <p className="text-[0.72rem] uppercase tracking-[0.24em] text-slate-500">Comparador Arkar</p>
+        <h1 className="my-2 font-['Fraunces'] text-[clamp(2.2rem,4vw,3.4rem)] tracking-[-0.02em] text-slate-900">
+          Comprar ou alugar?
+        </h1>
+        <p className="text-[1.05rem] text-slate-500">
           Entenda o custo total de comprar ou alugar um carro e tome a melhor decisão para o seu momento
         </p>
       </header>
 
-      <div className="form-card">
-        <form className="form-body" onSubmit={handleSubmit} noValidate>
-          <div className="form-section">
-            <h3 className="section-title">
-              <span className="section-icon" aria-hidden="true">
-                <Car className="w-4 h-4" strokeWidth={1.6} />
-              </span>
-              Dados do veículo
-            </h3>
-            <div className="field-grid">
-              <div className="field">
-                <label htmlFor="carPrice">Valor do carro (R$)</label>
-                <div className="input-wrap">
-                  <span className="input-prefix">R$</span>
-                  <input
-                    id="carPrice"
-                    name="carPrice"
-                    type="number"
-                    placeholder="Ex: 120000"
-                    value={formState.carPrice}
-                    onChange={handleChange}
-                    className={errors.carPrice ? "input-control input-error" : "input-control"}
-                    aria-invalid={errors.carPrice ? "true" : "false"}
-                  />
-                </div>
-                {errors.carPrice && (
-                  <span className="field-error" role="alert">
-                    {errors.carPrice}
-                  </span>
-                )}
-              </div>
-
-              <div className="field">
-                <label htmlFor="monthlyRent">Aluguel mensal (R$)</label>
-                <div className="input-wrap">
-                  <span className="input-icon" aria-hidden="true">
-                    <Calendar className="w-4 h-4" strokeWidth={1.6} />
-                  </span>
-                  <input
-                    id="monthlyRent"
-                    name="monthlyRent"
-                    type="number"
-                    placeholder="Ex: 2500"
-                    value={formState.monthlyRent}
-                    onChange={handleChange}
-                    className={errors.monthlyRent ? "input-control input-error" : "input-control"}
-                    aria-invalid={errors.monthlyRent ? "true" : "false"}
-                  />
-                </div>
-                {errors.monthlyRent && (
-                  <span className="field-error" role="alert">
-                    {errors.monthlyRent}
-                  </span>
-                )}
-              </div>
+      <div className="overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-[0_28px_60px_rgba(15,23,42,0.12)] animate-[fade-up_0.6s_ease_both] [animation-delay:0.08s]">
+        <form className="grid gap-6 p-[30px]" onSubmit={handleSubmit} noValidate>
+          <div className="grid gap-4">
+            <FormSectionHeader
+              title="Dados do veículo"
+              icon={<Car className="h-4 w-4" strokeWidth={1.6} />}
+            />
+            <div className="grid gap-5 md:grid-cols-2">
+              <FormInputField
+                id="carPrice"
+                name="carPrice"
+                type="number"
+                label="Valor do carro (R$)"
+                placeholder="Ex: 120000"
+                value={formState.carPrice}
+                onChange={handleChange}
+                error={errors.carPrice}
+                prefix="R$"
+              />
+              <FormInputField
+                id="monthlyRent"
+                name="monthlyRent"
+                type="number"
+                label="Aluguel mensal (R$)"
+                placeholder="Ex: 2500"
+                value={formState.monthlyRent}
+                onChange={handleChange}
+                error={errors.monthlyRent}
+                icon={<Calendar className="h-4 w-4" strokeWidth={1.6} />}
+              />
             </div>
           </div>
 
-          <div className="section-divider" aria-hidden="true" />
+          <div className="h-px w-full bg-slate-200" aria-hidden="true" />
 
-          <div className="form-section">
-            <h3 className="section-title">
-              <span className="section-icon" aria-hidden="true">
-                <DollarSign className="w-4 h-4" strokeWidth={1.6} />
-              </span>
-              Detalhes do financiamento
-            </h3>
-            <div className="field-grid">
-              <div className="field">
-                <label htmlFor="interestRate">Taxa de juros (% a.m.)</label>
-                <div className="input-wrap">
-                  <span className="input-icon" aria-hidden="true">
-                    <Percent className="w-4 h-4" strokeWidth={1.6} />
-                  </span>
-                  <input
-                    id="interestRate"
-                    name="interestRate"
-                    type="number"
-                    step="0.01"
-                    placeholder="Ex: 1.5"
-                    value={formState.interestRate}
-                    onChange={handleChange}
-                    className={errors.interestRate ? "input-control input-error" : "input-control"}
-                    aria-invalid={errors.interestRate ? "true" : "false"}
-                  />
-                </div>
-                {errors.interestRate && (
-                  <span className="field-error" role="alert">
-                    {errors.interestRate}
-                  </span>
-                )}
-              </div>
-
-              <div className="field">
-                <label htmlFor="financingTerm">Prazo do financiamento (meses)</label>
-                <div className="input-wrap">
-                  <span className="input-icon" aria-hidden="true">
-                    <Clock className="w-4 h-4" strokeWidth={1.6} />
-                  </span>
-                  <input
-                    id="financingTerm"
-                    name="financingTerm"
-                    type="number"
-                    step="1"
-                    placeholder="Ex: 48"
-                    value={formState.financingTerm}
-                    onChange={handleChange}
-                    className={errors.financingTerm ? "input-control input-error" : "input-control"}
-                    aria-invalid={errors.financingTerm ? "true" : "false"}
-                  />
-                </div>
-                {errors.financingTerm && (
-                  <span className="field-error" role="alert">
-                    {errors.financingTerm}
-                  </span>
-                )}
-              </div>
+          <div className="grid gap-4">
+            <FormSectionHeader
+              title="Detalhes do financiamento"
+              icon={<DollarSign className="h-4 w-4" strokeWidth={1.6} />}
+            />
+            <div className="grid gap-5 md:grid-cols-2">
+              <FormInputField
+                id="interestRate"
+                name="interestRate"
+                type="number"
+                step="0.01"
+                label="Taxa de juros (% a.m.)"
+                placeholder="Ex: 1.5"
+                value={formState.interestRate}
+                onChange={handleChange}
+                error={errors.interestRate}
+                icon={<Percent className="h-4 w-4" strokeWidth={1.6} />}
+              />
+              <FormInputField
+                id="financingTerm"
+                name="financingTerm"
+                type="number"
+                step="1"
+                label="Prazo do financiamento (meses)"
+                placeholder="Ex: 48"
+                value={formState.financingTerm}
+                onChange={handleChange}
+                error={errors.financingTerm}
+                icon={<Clock className="h-4 w-4" strokeWidth={1.6} />}
+              />
             </div>
           </div>
 
-          <div className="optional-panel">
-            <div className="field-grid">
-              <div className="field">
-                <div className="label-row">
-                  <label htmlFor="downPayment">Entrada (R$)</label>
-                  <span className="optional-tag">Opcional</span>
-                </div>
-                <div className="input-wrap">
-                  <span className="input-prefix">R$</span>
-                  <input
-                    id="downPayment"
-                    name="downPayment"
-                    type="number"
-                    placeholder="Ex: 10000"
-                    value={formState.downPayment}
-                    onChange={handleChange}
-                    className={errors.downPayment ? "input-control input-error" : "input-control"}
-                    aria-invalid={errors.downPayment ? "true" : "false"}
-                  />
-                </div>
-                {errors.downPayment && (
-                  <span className="field-error" role="alert">
-                    {errors.downPayment}
-                  </span>
-                )}
-              </div>
-
-              <div className="field">
-                <div className="label-row">
-                  <label htmlFor="comparisonPeriod">Período de comparação</label>
-                  <span className="optional-tag">Meses</span>
-                </div>
-                <div className="input-wrap">
-                  <span className="input-icon" aria-hidden="true">
-                    <Repeat2 className="w-4 h-4" strokeWidth={1.6} />
-                  </span>
-                  <input
-                    id="comparisonPeriod"
-                    name="comparisonPeriod"
-                    type="number"
-                    step="1"
-                    placeholder="Ex: 48"
-                    value={formState.comparisonPeriod}
-                    onChange={handleChange}
-                    className={errors.comparisonPeriod ? "input-control input-error" : "input-control"}
-                    aria-invalid={errors.comparisonPeriod ? "true" : "false"}
-                  />
-                </div>
-                {errors.comparisonPeriod && (
-                  <span className="field-error" role="alert">
-                    {errors.comparisonPeriod}
-                  </span>
-                )}
-              </div>
+          <div className="rounded-[18px] border border-slate-200 bg-slate-100/60 p-4">
+            <div className="grid gap-5 md:grid-cols-2">
+              <FormInputField
+                id="downPayment"
+                name="downPayment"
+                type="number"
+                label="Entrada (R$)"
+                placeholder="Ex: 10000"
+                value={formState.downPayment}
+                onChange={handleChange}
+                error={errors.downPayment}
+                prefix="R$"
+                optionalLabel="Opcional"
+              />
+              <FormInputField
+                id="comparisonPeriod"
+                name="comparisonPeriod"
+                type="number"
+                step="1"
+                label="Período de comparação (meses)"
+                placeholder="Ex: 48"
+                value={formState.comparisonPeriod}
+                onChange={handleChange}
+                error={errors.comparisonPeriod}
+                icon={<Repeat2 className="h-4 w-4" strokeWidth={1.6} />}
+                optionalLabel="OPCIONAL"
+              />
             </div>
           </div>
 
-          <div className="submit-row">
-            <button className="submit-btn" type="submit" disabled={isLoading}>
-              <span className="submit-icon" aria-hidden="true">
-                <Calculator className="w-4 h-4" strokeWidth={1.6} />
+          <div className="grid gap-3">
+            <button
+              className="inline-flex w-full items-center justify-center gap-3 rounded-2xl bg-slate-800 px-5 py-4 text-base font-semibold text-white shadow-[0_18px_30px_rgba(17,24,39,0.2)] transition hover:-translate-y-0.5 hover:bg-slate-900 disabled:cursor-not-allowed disabled:bg-slate-400 disabled:shadow-none disabled:transform-none"
+              type="submit"
+              disabled={isLoading}
+            >
+              <span className="h-5 w-5 text-white/70" aria-hidden="true">
+                <Calculator className="h-5 w-5" strokeWidth={1.6} />
               </span>
               {isLoading ? "Calculando..." : "Calcular"}
             </button>
-            <p className="submit-note">
+            <p className="text-center text-[0.85rem] text-slate-500">
               Análise objetiva baseada nos custos de compra, financiamento e aluguel
             </p>
           </div>

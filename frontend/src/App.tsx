@@ -1,55 +1,30 @@
-import { useState } from "react";
+/**
+ * Componente raiz da aplicação.
+ * Orquestra o fluxo principal: gerencia estado global (resultado, carregamento, erro),
+ * integra o formulário de cálculo com a exibição de resultados, e controla
+ * transições de sobreposição modal. Centro nevrálgico da lógica de apresentação.
+ */
 import { CalculatorForm } from "./components/CalculatorForm";
 import { ResultDisplay } from "./components/ResultDisplay";
-import { calculateComparison } from "./services/api.service";
-import type { CalculationInput, CalculationResult } from "./types/calculator.types";
-
-const GENERIC_ERROR_MESSAGE = "Ocorreu um erro ao calcular. Tente novamente.";
+import { ResultOverlay } from "./components/ResultOverlay";
+import { useCalculatorApp } from "./hooks/useCalculatorApp";
 
 function App() {
-  const [result, setResult] = useState<CalculationResult | null>(null);
-  const [lastInput, setLastInput] = useState<CalculationInput | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [isClosing, setIsClosing] = useState(false);
-
-  const handleCalculate = async (input: CalculationInput) => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const nextResult = await calculateComparison(input);
-      setLastInput(input);
-      setResult(nextResult);
-    } catch {
-      setError(GENERIC_ERROR_MESSAGE);
-      setResult(null);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleCloseResult = () => {
-    setIsClosing(true);
-    setTimeout(() => {
-      setResult(null);
-      setIsClosing(false);
-    }, 300);
-  };
-
-  const handleCloseError = () => {
-    setIsClosing(true);
-    setTimeout(() => {
-      setError(null);
-      setIsClosing(false);
-    }, 300);
-  };
+  const {
+    result,
+    lastInput,
+    isLoading,
+    error,
+    isClosing,
+    handleCalculate,
+    handleCloseResult,
+  } = useCalculatorApp();
 
   return (
     <>
       <CalculatorForm onSubmit={handleCalculate} isLoading={isLoading} />
       {error && (
-        <div className={`result-overlay ${isClosing ? "result-overlay--closing" : ""}`} role="dialog" aria-modal="true">
+        <ResultOverlay isClosing={isClosing}>
           <section className="result-shell" aria-live="polite">
             <div className="result-section">
               <header className="result-header">
@@ -59,12 +34,12 @@ function App() {
               </header>
             </div>
           </section>
-        </div>
+        </ResultOverlay>
       )}
       {result && (
-        <div className={`result-overlay ${isClosing ? "result-overlay--closing" : ""}`} role="dialog" aria-modal="true">
+        <ResultOverlay isClosing={isClosing}>
           <ResultDisplay result={result} input={lastInput} onClose={handleCloseResult} />
-        </div>
+        </ResultOverlay>
       )}
     </>
   );

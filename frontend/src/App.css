@@ -1,3 +1,9 @@
+/**
+ * Estilos específicos do componente App.
+ * Define layout de contenedor, dimensionamento e posicionamento da raiz da aplicação.
+ * Complementa os estilos globais e Tailwind com customizações particulares do componente.
+ */
+
 #root {
   max-width: 1280px;
   margin: 0 auto;

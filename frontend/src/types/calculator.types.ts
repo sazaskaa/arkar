@@ -1,3 +1,10 @@
+/**
+ * Definições de tipos e interfaces para a aplicação de calculadora.
+ * Inclui tipos para entradas de cálculo, resultados das simulações, erros de validação
+ * e modelos de dados compartilhados entre frontend e backend.
+ * Garante type-safety em toda a aplicação e facilita integração com a API.
+ */
+
 export interface CalculationInput {
   carPrice: number;
   monthlyRent: number;
