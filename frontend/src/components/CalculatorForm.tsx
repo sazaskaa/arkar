@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Car, Calendar, DollarSign, Percent, Clock, Repeat2, Calculator } from "lucide-react";
 import type { CalculationInput } from "../types/calculator.types";
 
 interface CalculatorFormProps {
@@ -63,7 +64,7 @@ const validateForm = (state: FormState): FormErrors => {
   }
 
   if (!isPositiveInteger(state.financingTerm)) {
-    errors.financingTerm = "Informe um prazo valido em meses";
+    errors.financingTerm = "Informe um prazo válido em meses";
   }
 
   if (hasValue(state.downPayment)) {
@@ -75,7 +76,7 @@ const validateForm = (state: FormState): FormErrors => {
   }
 
   if (hasValue(state.comparisonPeriod) && !isPositiveInteger(state.comparisonPeriod)) {
-    errors.comparisonPeriod = "Informe um periodo valido em meses";
+    errors.comparisonPeriod = "Informe um período válido em meses";
   }
 
   return errors;
@@ -135,14 +136,9 @@ export function CalculatorForm({ onSubmit, isLoading }: CalculatorFormProps) {
           <div className="form-section">
             <h3 className="section-title">
               <span className="section-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                  <path d="M3 13.5V18a2 2 0 0 0 2 2h9.5" />
-                  <path d="M8 18v-4.5a1.5 1.5 0 0 1 1.5-1.5H17" />
-                  <path d="M13 6h5a3 3 0 0 1 3 3v4h-8" />
-                  <path d="M7 10.5h4.5" />
-                </svg>
+                <Car className="w-4 h-4" strokeWidth={1.6} />
               </span>
-              Dados do veiculo
+              Dados do veículo
             </h3>
             <div className="field-grid">
               <div className="field">
@@ -171,10 +167,7 @@ export function CalculatorForm({ onSubmit, isLoading }: CalculatorFormProps) {
                 <label htmlFor="monthlyRent">Aluguel mensal (R$)</label>
                 <div className="input-wrap">
                   <span className="input-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                      <rect x="3" y="4" width="18" height="18" rx="2" />
-                      <path d="M16 2v4M8 2v4M3 10h18" />
-                    </svg>
+                    <Calendar className="w-4 h-4" strokeWidth={1.6} />
                   </span>
                   <input
                     id="monthlyRent"
@@ -201,10 +194,7 @@ export function CalculatorForm({ onSubmit, isLoading }: CalculatorFormProps) {
           <div className="form-section">
             <h3 className="section-title">
               <span className="section-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                  <path d="M12 3v18" />
-                  <path d="M7 7h5a3 3 0 1 1 0 6H9a3 3 0 1 0 0 6h8" />
-                </svg>
+                <DollarSign className="w-4 h-4" strokeWidth={1.6} />
               </span>
               Detalhes do financiamento
             </h3>
@@ -213,11 +203,7 @@ export function CalculatorForm({ onSubmit, isLoading }: CalculatorFormProps) {
                 <label htmlFor="interestRate">Taxa de juros (% a.m.)</label>
                 <div className="input-wrap">
                   <span className="input-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                      <path d="M5 19 19 5" />
-                      <circle cx="7" cy="7" r="3" />
-                      <circle cx="17" cy="17" r="3" />
-                    </svg>
+                    <Percent className="w-4 h-4" strokeWidth={1.6} />
                   </span>
                   <input
                     id="interestRate"
@@ -242,10 +228,7 @@ export function CalculatorForm({ onSubmit, isLoading }: CalculatorFormProps) {
                 <label htmlFor="financingTerm">Prazo do financiamento (meses)</label>
                 <div className="input-wrap">
                   <span className="input-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                      <circle cx="12" cy="12" r="9" />
-                      <path d="M12 7v6l4 2" />
-                    </svg>
+                    <Clock className="w-4 h-4" strokeWidth={1.6} />
                   </span>
                   <input
                     id="financingTerm"
@@ -297,15 +280,12 @@ export function CalculatorForm({ onSubmit, isLoading }: CalculatorFormProps) {
 
               <div className="field">
                 <div className="label-row">
-                  <label htmlFor="comparisonPeriod">Periodo de comparação</label>
+                  <label htmlFor="comparisonPeriod">Período de comparação</label>
                   <span className="optional-tag">Meses</span>
                 </div>
                 <div className="input-wrap">
                   <span className="input-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                      <path d="M5 7h14M5 17h14" />
-                      <path d="M8 4 5 7l3 3M16 20l3-3-3-3" />
-                    </svg>
+                    <Repeat2 className="w-4 h-4" strokeWidth={1.6} />
                   </span>
                   <input
                     id="comparisonPeriod"
@@ -331,10 +311,7 @@ export function CalculatorForm({ onSubmit, isLoading }: CalculatorFormProps) {
           <div className="submit-row">
             <button className="submit-btn" type="submit" disabled={isLoading}>
               <span className="submit-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                  <rect x="4" y="3" width="16" height="18" rx="2" />
-                  <path d="M8 7h8M8 11h8M8 15h8" />
-                </svg>
+                <Calculator className="w-4 h-4" strokeWidth={1.6} />
               </span>
               {isLoading ? "Calculando..." : "Calcular"}
             </button>
