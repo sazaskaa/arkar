@@ -53,6 +53,10 @@ const isPositiveInteger = (value: string) => {
   return Number.isInteger(numericValue) && numericValue > 0;
 };
 
+/**
+ * Valida o estado do formulário aplicando regras específicas por campo.
+ * Garante que dados inválidos não sejam enviados ao backend, melhorando UX com feedback imediato.
+ */
 const validateForm = (state: FormState): FormErrors => {
   const errors: FormErrors = {};
 

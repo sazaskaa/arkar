@@ -16,6 +16,10 @@ export function useCalculatorApp() {
   const [error, setError] = useState<string | null>(null);
   const [isClosing, setIsClosing] = useState(false);
 
+  /**
+   * Executa o cálculo assincronamente, gerenciando estados de loading e erro para melhorar UX.
+   * Trata erros específicos da API para fornecer feedback contextual ao usuário.
+   */
   const handleCalculate = async (input: CalculationInput) => {
     setIsLoading(true);
     setError(null);
@@ -33,6 +37,10 @@ export function useCalculatorApp() {
     }
   };
 
+  /**
+   * Fecha o resultado com animação, aguardando 300ms para completar a transição visual antes de limpar estado.
+   * Melhora UX evitando mudanças abruptas na interface.
+   */
   const handleCloseResult = () => {
     setIsClosing(true);
     setTimeout(() => {

@@ -1,8 +1,7 @@
 /**
  * Serviço de integração com a API do backend.
- * Responsável por gerenciar todas as chamadas de API, incluindo envio de dados de cálculo,
- * tratamento de erros e parsing seguro de respostas. Oferece abstração para requisições
- * HTTP e uma interface tipada com TypeScript para garantir segurança em tempo de desenvolvimento.
+ * Abstrai chamadas HTTP para centralizar tratamento de erros e garantir type-safety,
+ * evitando duplicação de lógica de fetch em componentes e melhorando manutenibilidade.
  */
 import { ApiError } from "../types/calculator.types";
 import type {
@@ -21,6 +20,10 @@ type ErrorResponse = {
 const GENERIC_ERROR_MESSAGE = "Ocorreu um erro ao calcular. Tente novamente.";
 const NETWORK_ERROR_MESSAGE = "Não foi possível conectar ao servidor";
 
+/**
+ * Faz parsing seguro de JSON para evitar crashes em respostas malformadas.
+ * Retorna null em caso de erro, permitindo tratamento gracioso.
+ */
 async function parseJsonSafe<T>(response: Response): Promise<T | null> {
   try {
     return (await response.json()) as T;
@@ -29,6 +32,10 @@ async function parseJsonSafe<T>(response: Response): Promise<T | null> {
   }
 }
 
+/**
+ * Constrói erro padronizado da API a partir da resposta, preservando detalhes de validação.
+ * Facilita tratamento uniforme de erros no frontend.
+ */
 function buildApiError(payload: ErrorResponse | null): ApiError {
   if (payload?.error) {
     return new ApiError({ error: payload.error, details: payload.details });
@@ -37,6 +44,10 @@ function buildApiError(payload: ErrorResponse | null): ApiError {
   return new ApiError({ error: GENERIC_ERROR_MESSAGE });
 }
 
+/**
+ * Envia dados de cálculo para o backend e retorna resultado ou lança erro.
+ * Centraliza comunicação assíncrona para isolamento de lógica de negócio.
+ */
 export async function calculateComparison(
   input: CalculationInput
 ): Promise<CalculationResult> {

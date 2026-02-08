@@ -4,11 +4,22 @@ import type { CalculationInput, ValidationError } from "../types/calculator.type
 
 const router = Router();
 
+/**
+ * Garante que entradas numéricas sejam válidas para evitar erros em cálculos financeiros,
+ * onde NaN causaria resultados incorretos ou exceções.
+ */
 const isNumber = (value: unknown): value is number =>
   typeof value === "number" && !Number.isNaN(value);
 
+/**
+ * Rota POST para calcular opções de compra/aluguel/financiamento de carro.
+ * Recebe dados do frontend, valida entradas, executa cálculo e retorna resultado com recomendação.
+ * Necessária para processar requisições HTTP e integrar com o frontend separado.
+ */
 router.post("/calculate", (req, res) => {
   try {
+    const downPaymentErrorMessage = "A entrada deve ser um número não negativo e menor que o valor do carro";
+
     const {
       carPrice,
       monthlyRent,
@@ -56,12 +67,12 @@ router.post("/calculate", (req, res) => {
       if (!isNumber(downPayment) || downPayment < 0) {
         errors.push({
           field: "downPayment",
-          message: "A entrada deve ser um número não negativo e menor que o valor do carro",
+          message: downPaymentErrorMessage,
         });
       } else if (isNumber(carPrice) && downPayment >= carPrice) {
         errors.push({
           field: "downPayment",
-          message: "A entrada deve ser um número não negativo e menor que o valor do carro",
+          message: downPaymentErrorMessage,
         });
       }
     }
@@ -98,6 +109,7 @@ router.post("/calculate", (req, res) => {
     const result = calculate(input);
     return res.status(200).json(result);
   } catch (error) {
+    console.error("Erro no cálculo:", error);
     return res.status(500).json({ error: "Erro interno do servidor" });
   }
 });
