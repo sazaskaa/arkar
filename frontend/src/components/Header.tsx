@@ -9,6 +9,11 @@ export function Header() {
           <img className="site-header__logo" src="/logo-arkar.png" alt="Logo Arkar" />
           <span className="site-header__name">Arkar</span>
         </div>
+        <nav className="site-header__nav">
+          <a href="#entenda-o-processo" className="site-header__link">
+            Entenda o processo
+          </a>
+        </nav>
       </div>
     </header>
   );

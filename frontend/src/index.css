@@ -96,6 +96,30 @@ body {
 	font-weight: 600;
 }
 
+.site-header__nav {
+	margin-left: auto;
+	display: flex;
+	align-items: center;
+}
+
+.site-header__link {
+	color: var(--ink);
+	text-decoration: none;
+	font-size: 0.95rem;
+	font-weight: 500;
+	transition: color 0.2s ease, opacity 0.2s ease;
+	cursor: pointer;
+}
+
+.site-header__link:hover {
+	color: var(--accent);
+	opacity: 0.8;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
 
 @keyframes fade-up {
 	from {

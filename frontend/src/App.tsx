@@ -9,6 +9,7 @@ import { CalculatorForm } from "./components/CalculatorForm";
 import { Header } from "./components/Header";
 import { ResultDisplay } from "./components/ResultDisplay";
 import { ResultOverlay } from "./components/ResultOverlay";
+import { SiteInfoSection } from "./components/SiteInfoSection";
 import { useCalculatorApp } from "./hooks/useCalculatorApp";
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
       <Header />
       <main className="app-content">
         <CalculatorForm onSubmit={handleCalculate} isLoading={isLoading} />
+        <SiteInfoSection />
       </main>
       {error && (
         <ResultOverlay isClosing={isClosing} onClose={handleCloseError}>
