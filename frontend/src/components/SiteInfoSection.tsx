@@ -2,11 +2,36 @@
  * Secao informativa abaixo do formulario, com explicacao e FAQ.
  * Design enriquecido com animacoes, cards visuais e hierarquia clara.
  */
+import { useEffect, useRef, useState } from "react";
 import { Calculator, TrendingUp, FileText, CheckCircle2, HelpCircle, Shield } from "lucide-react";
 import { FadeInOnScroll } from "./FadeInOnScroll";
-import { useState } from "react";
 
 export function SiteInfoSection() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [heights, setHeights] = useState<number[]>([]);
+  const panelRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const faqItems = [
+    {
+      question: "O período de comparação realmente importa?",
+      answer:
+        "Sim. Ele define a janela temporal da análise. Comparar 24 meses vs 60 meses muda completamente o resultado. Alinhe com seu planejamento real.",
+    },
+    {
+      question: "Isso substitui uma consultoria financeira?",
+      answer:
+        "Não. É uma ferramenta de apoio à decisão, não um serviço de consultoria. Use para explorar cenários e fundamentar conversas com especialistas.",
+    },
+    {
+      question: "Posso testar vários cenários rapidamente?",
+      answer:
+        "Exatamente. Ajuste juros, entrada, prazo — cada mudança gera um novo resultado instantâneo. Compare múltiplas opções lado a lado.",
+    },
+  ];
+
+  useEffect(() => {
+    const newHeights = panelRefs.current.map((ref) => ref?.scrollHeight ?? 0);
+    setHeights(newHeights);
+  }, [openIndex]);
   return (
     <section id="entenda-o-processo" className="mx-auto mt-20 grid w-full max-w-[1080px] gap-16 pb-12">
       {/* Divisória decorativa */}
@@ -135,38 +160,54 @@ export function SiteInfoSection() {
           </header>
 
           <div className="grid gap-4">
-            <details className="group rounded-[20px] border border-slate-200 bg-white/80 px-5 py-4 shadow-[0_4px_16px_rgba(15,23,42,0.04)] transition-all hover:shadow-[0_8px_24px_rgba(15,23,42,0.08)] dark:border-slate-800 dark:bg-slate-900/70 dark:shadow-[0_8px_24px_rgba(2,6,23,0.45)]">
-              <summary className="flex cursor-pointer items-start justify-between gap-3 text-[0.95rem] font-semibold text-slate-900 [list-style:none] [&::-webkit-details-marker]:hidden dark:text-slate-100">
-                <span>O período de comparação realmente importa?</span>
-                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-slate-400 transition-transform group-open:rotate-90 dark:text-slate-500" strokeWidth={1.8} />
-              </summary>
-              <p className="mt-3 text-[0.9rem] leading-relaxed text-slate-600 dark:text-slate-400">
-                Sim. Ele define a janela temporal da análise. Comparar 24 meses vs 60 meses muda completamente o resultado.
-                Alinhe com seu planejamento real.
-              </p>
-            </details>
+            {faqItems.map((item, index) => {
+              const isOpen = openIndex === index;
+              const panelHeight = heights[index] ?? 0;
+              const panelId = `faq-panel-${index}`;
+              const buttonId = `faq-button-${index}`;
 
-            <details className="group rounded-[20px] border border-slate-200 bg-white/80 px-5 py-4 shadow-[0_4px_16px_rgba(15,23,42,0.04)] transition-all hover:shadow-[0_8px_24px_rgba(15,23,42,0.08)] dark:border-slate-800 dark:bg-slate-900/70 dark:shadow-[0_8px_24px_rgba(2,6,23,0.45)]">
-              <summary className="flex cursor-pointer items-start justify-between gap-3 text-[0.95rem] font-semibold text-slate-900 [list-style:none] [&::-webkit-details-marker]:hidden dark:text-slate-100">
-                <span>Isso substitui uma consultoria financeira?</span>
-                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-slate-400 transition-transform group-open:rotate-90 dark:text-slate-500" strokeWidth={1.8} />
-              </summary>
-              <p className="mt-3 text-[0.9rem] leading-relaxed text-slate-600 dark:text-slate-400">
-                Não. É uma ferramenta de apoio à decisão, não um serviço de consultoria. Use para explorar cenários
-                e fundamentar conversas com especialistas.
-              </p>
-            </details>
-
-            <details className="group rounded-[20px] border border-slate-200 bg-white/80 px-5 py-4 shadow-[0_4px_16px_rgba(15,23,42,0.04)] transition-all hover:shadow-[0_8px_24px_rgba(15,23,42,0.08)] dark:border-slate-800 dark:bg-slate-900/70 dark:shadow-[0_8px_24px_rgba(2,6,23,0.45)]">
-              <summary className="flex cursor-pointer items-start justify-between gap-3 text-[0.95rem] font-semibold text-slate-900 [list-style:none] [&::-webkit-details-marker]:hidden dark:text-slate-100">
-                <span>Posso testar vários cenários rapidamente?</span>
-                <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-slate-400 transition-transform group-open:rotate-90 dark:text-slate-500" strokeWidth={1.8} />
-              </summary>
-              <p className="mt-3 text-[0.9rem] leading-relaxed text-slate-600 dark:text-slate-400">
-                Exatamente. Ajuste juros, entrada, prazo — cada mudança gera um novo resultado instantâneo.
-                Compare múltiplas opções lado a lado.
-              </p>
-            </details>
+              return (
+                <div
+                  key={item.question}
+                  className="group rounded-[20px] border border-slate-200 bg-white/80 px-5 py-4 shadow-[0_4px_16px_rgba(15,23,42,0.04)] transition-all hover:shadow-[0_8px_24px_rgba(15,23,42,0.08)] dark:border-slate-800 dark:bg-slate-900/70 dark:shadow-[0_8px_24px_rgba(2,6,23,0.45)]"
+                >
+                  <button
+                    id={buttonId}
+                    type="button"
+                    aria-expanded={isOpen}
+                    aria-controls={panelId}
+                    onClick={() => setOpenIndex((prev) => (prev === index ? null : index))}
+                    className="flex w-full cursor-pointer items-start justify-between gap-3 text-left text-[0.95rem] font-semibold text-slate-900 dark:text-slate-100"
+                  >
+                    <span>{item.question}</span>
+                    <CheckCircle2
+                      className={`mt-0.5 h-5 w-5 shrink-0 text-slate-400 transition-transform duration-200 dark:text-slate-500 ${
+                        isOpen ? "rotate-90" : ""
+                      }`}
+                      strokeWidth={1.8}
+                    />
+                  </button>
+                  <div
+                    id={panelId}
+                    role="region"
+                    aria-labelledby={buttonId}
+                    ref={(element) => {
+                      panelRefs.current[index] = element;
+                    }}
+                    className="overflow-hidden"
+                    style={{
+                      maxHeight: isOpen ? `${panelHeight}px` : "0px",
+                      opacity: isOpen ? 1 : 0,
+                      transition: "max-height 240ms ease-in-out, opacity 240ms ease-in-out",
+                    }}
+                  >
+                    <p className="mt-3 text-[0.9rem] leading-relaxed text-slate-600 dark:text-slate-400">
+                      {item.answer}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -213,7 +254,7 @@ export function SiteInfoSection() {
                 <div className="grid gap-1">
                   <h3 className="text-[0.95rem] font-semibold text-slate-900 dark:text-slate-100">Custo total de aluguel acumulado</h3>
                   <p className="text-[0.88rem] text-slate-600 dark:text-slate-400">
-                    Soma simples: valor mensal × número de meses. Sem considerar reajustes contratuais.
+                    Soma simples: valor mensal X número de meses. Sem considerar reajustes contratuais.
                   </p>
                 </div>
               </li>

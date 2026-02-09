@@ -68,7 +68,8 @@ export async function calculateComparison(
         body: JSON.stringify(input),
       });
       break;
-    } catch {
+    } catch (error) {
+      console.error("API request failed:", error);
     }
   }
 

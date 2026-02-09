@@ -16,24 +16,25 @@ export function useInView(options: UseInViewOptions = {}) {
   const [isInView, setIsInView] = useState(false);
 
   useEffect(() => {
+    const element = ref.current;
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
         setIsInView(true);
-        if (triggerOnce && ref.current) {
-          observer.unobserve(ref.current);
+        if (triggerOnce && element) {
+          observer.unobserve(element);
         }
       } else if (!triggerOnce) {
         setIsInView(false);
       }
     }, { threshold, rootMargin });
 
-    if (ref.current) {
-      observer.observe(ref.current);
+    if (element) {
+      observer.observe(element);
     }
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
+      if (element) {
+        observer.unobserve(element);
       }
     };
   }, [threshold, rootMargin, triggerOnce]);
