@@ -5,7 +5,9 @@
  */
 import { forwardRef } from "react";
 import type { CalculationInput, CalculationResult } from "../types/calculator.types";
+import type { ChartDataPoint } from "../hooks/useChartData";
 import { formatCurrency, optionLabels } from "../utils/format";
+import { CostChart } from "./CostChart";
 
 interface CardData {
   key: "cash" | "financing" | "rental";
@@ -19,10 +21,12 @@ interface PDFReportTemplateProps {
   input: CalculationInput | null;
   cards: CardData[];
   maxTotal: number;
+  chartData?: ChartDataPoint[];
+  chartTickInterval?: number;
 }
 
 export const PDFReportTemplate = forwardRef<HTMLDivElement, PDFReportTemplateProps>(
-  function PDFReportTemplate({ result, input, cards, maxTotal }, ref) {
+  function PDFReportTemplate({ result, input, cards, maxTotal, chartData, chartTickInterval }, ref) {
     const recommendedLabel = optionLabels[result.recommendation];
 
     return (
@@ -149,6 +153,18 @@ export const PDFReportTemplate = forwardRef<HTMLDivElement, PDFReportTemplatePro
               </tbody>
             </table>
           </div>
+
+          {/* Gráfico de evolução do custo acumulado */}
+          {chartData && chartData.length > 0 && (
+            <div style={{ marginBottom: "24px" }}>
+              <h2 style={{ fontSize: "11px", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#6b7280", margin: "0 0 14px", borderBottom: "1px solid #e5e7eb", paddingBottom: "8px" }}>
+                Evolução do custo acumulado
+              </h2>
+              <div style={{ background: "#f9fafb", borderRadius: "10px", padding: "16px 10px 8px", border: "1px solid #e5e7eb" }}>
+                <CostChart data={chartData} tickInterval={chartTickInterval ?? 6} staticMode />
+              </div>
+            </div>
+          )}
 
           {/* Recomendação */}
           <div style={{ background: "#f9fafb", borderRadius: "10px", padding: "18px 20px", border: "1px solid #e5e7eb" }}>

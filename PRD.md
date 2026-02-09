@@ -11,8 +11,11 @@ Criar um site chamado "Arkar" que compare se vale mais a pena **alugar** ou **co
 | Camada           | Tecnologia                            | Justificativa                                                                                |
 | ---------------- | ------------------------------------- | -------------------------------------------------------------------------------------------- |
 | **Frontend**     | React + TypeScript + Vite             | Vite é mais rápido e leve que CRA, TypeScript garante tipagem                                |
-| **Estilos**      | CSS + Tailwind (configurado)          | Base pronta para utilitários, mas a UI atual usa CSS customizado                             |
+| **Estilos**      | CSS + Tailwind (configurado)          | Base pronta para utilitários, mas a UI usa CSS customizado                                   |
 | **Backend**      | Node.js + Express + TypeScript + CORS | API simples e performática, TS para consistência, CORS para permitir requisições do frontend |
+| **PDF Export**   | html2canvas + jsPDF                   | Geração de relatório em PDF a partir do resultado                                            |
+| **Gráficos**     | Recharts                              | Visualização de evolução de custos acumulados com LineChart responsivo                       |
+| **UI Icons**     | Lucide React                          | Ícones consistentes para inputs e feedbacks                                                  |
 | **Deploy Front** | Vercel                                | Gratuito, integração nativa com React                                                        |
 | **Deploy Back**  | Railway                               | Gratuito (tier hobby), fácil deploy de Node.js                                               |
 
@@ -30,6 +33,8 @@ arkar/
 ├── TASKS.md                   # Checklist de implementacao (concluido)
 ├── specs/                     # Especificacoes detalhadas por feature
 ├── backend/                   # API Express + TypeScript
+│   ├── openapi.yaml           # Especificacao OpenAPI (Swagger)
+│   ├── dist/                  # Build gerado
 │   ├── src/
 │   │   ├── routes/            # Rotas HTTP (POST /api/calculate)
 │   │   ├── services/          # Logica de calculo e recomendacao
@@ -41,12 +46,15 @@ arkar/
 └── frontend/                  # React + Vite + TypeScript
     ├── .env                   # Variaveis locais (nao versionar)
     ├── .env.example           # Template de variaveis para o frontend
-    ├── public/
+    ├── public/                # Assets estaticos (logo, etc)
+    ├── dist/                  # Build gerado
     ├── src/
     │   ├── assets/
-    │   ├── components/        # Formulario e exibicao de resultados
+    │   ├── components/        # Formulario, resultados, PDF, secoes de conteudo e grafico
+    │   ├── hooks/             # Hooks customizados (tema, PDF, validacao, dados de grafico, etc)
     │   ├── services/          # Client HTTP (fetch) para a API
     │   ├── types/             # Tipos TypeScript compartilhados no frontend
+    │   ├── utils/             # Formatadores e helpers
     │   ├── App.css
     │   ├── App.tsx
     │   ├── index.css          # Tema visual e layout
@@ -97,9 +105,21 @@ arkar/
 - Indicação clara de qual é mais vantajosa
 - Diferença de valor entre as opções
 
+### Extras implementados
+
+- **Gráfico de evolução de custos**: LineChart responsivo mostrando a acumulação de custos mês a mês para as três opções (Aluguel, Compra à Vista, Financiamento), com eixo X inteligente (intervalos automáticos: 1/3/6/12 meses conforme o período), tooltip customizado, suporte a dark mode e inclusão no relatório PDF
+- Exportação de relatório em PDF (resultado + inputs + gráfico)
+- Tema claro/escuro com persistência local
+- Overlay de resultado com fechamento por clique/ESC, rolagem interna para acessar todo o conteúdo
+- Seção informativa com metodologia e FAQ
+
 ---
 
 ## API Endpoints
+
+### `GET /`
+
+Health check do backend.
 
 ### `POST /api/calculate`
 
@@ -164,16 +184,24 @@ arkar/
 }
 ```
 
+### `GET /docs`
+
+Swagger UI para documentação interativa (OpenAPI).
+
 ---
 
-## Interface (Simples e Funcional)
+## Interface (Atual)
 
-1. **Formulário** com os campos de entrada
-2. **Botão "Calcular"**
-3. **Resultado** exibindo:
-   - Cards com valor de cada opção
-   - Destaque visual na opção mais barata
-   - Economia em relação às outras opções
+1. **Formulário** com os campos de entrada e validações locais
+2. **Botão "Calcular"** com estado de carregamento
+3. **Resultado em overlay modal** exibindo:
+  - Cards com valor de cada opção
+  - Destaque visual na opção mais barata
+  - Gráfico de evolução de custos acumulados (LineChart)
+  - Economia em relação às outras opções
+  - Exportação de relatório em PDF (com gráfico incluído)
+4. **Seção informativa** com metodologia e FAQ
+5. **Alternância de tema** claro/escuro
 
 ---
 
@@ -188,7 +216,7 @@ arkar/
 
 ## Status Atual
 
-MVP implementado (frontend, backend e integração). Consulte TASKS.md e specs/ para detalhes técnicos e checklist finalizado.
+MVP implementado (frontend, backend e integração), com refinamentos de UI, exportação em PDF, tema claro/escuro e gráfico interativo de evolução de custos. Consulte TASKS.md e specs/ para detalhes técnicos e checklist finalizado.
 
 ---
 
@@ -206,9 +234,9 @@ npm install
 npm run dev   # Roda em http://localhost:5173
 ```
 
-### Variaveis de ambiente
+### Variáveis de ambiente
 
-- Backend: PORT e FRONTEND_URL (usado em producao para CORS)
+- Backend: PORT e FRONTEND_URL (usado em produção para CORS)
 - Frontend: VITE_API_URL (URL base do backend)
 
 ---
@@ -218,5 +246,7 @@ npm run dev   # Roda em http://localhost:5173
 - **TypeScript em ambos**: Consistência e segurança de tipos
 - **Cálculo no backend**: Demonstra separação de responsabilidades
 - **Vite**: Build mais rápido que CRA, menos config
+- **Recharts para gráfico**: Biblioteca leve e responsiva, renderização SVG capturável em PDF
+- **Hook `useChartData`**: Separação clara entre lógica de geração de dados e componente de visualização
 - **Estrutura simples**: Código fácil de entender e navegar
 - **Sem banco de dados**: Não é necessário para o escopo

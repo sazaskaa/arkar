@@ -7,8 +7,10 @@ import { X } from "lucide-react";
 import type { CalculationInput, CalculationResult } from "../types/calculator.types";
 import { useExportPDF } from "../hooks/useExportPDF";
 import { useResultCalculations } from "../hooks/useResultCalculations";
+import { useChartData } from "../hooks/useChartData";
 import { ResultCard } from "./ResultCard";
 import { ResultSummary } from "./ResultSummary";
+import { CostChart } from "./CostChart";
 import { ExportSection } from "./ExportSection";
 import { PDFReportTemplate } from "./PDFReportTemplate";
 
@@ -22,6 +24,7 @@ export function ResultDisplay({ result, input, onClose }: ResultDisplayProps) {
   const reportRef = useRef<HTMLDivElement>(null);
   const { isExporting, exportError, clearExportError, exportReport } = useExportPDF();
   const { cards, maxTotal } = useResultCalculations(result);
+  const { data: chartData, tickInterval } = useChartData(input, result);
 
   if (!result) {
     return null;
@@ -80,6 +83,26 @@ export function ResultDisplay({ result, input, onClose }: ResultDisplayProps) {
           <ResultSummary result={result} />
         </div>
 
+        {/* Gráfico de evolução do custo acumulado */}
+        {chartData.length > 0 && (
+          <div className="px-8 sm:px-10 pb-8">
+            <div className="border-t border-dashed border-gray-200 pt-6 dark:border-slate-800">
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="text-[10px] font-semibold tracking-widest text-gray-900 uppercase bg-gray-50 border border-gray-200 px-2 py-0.5 rounded-full dark:text-slate-200 dark:bg-slate-800 dark:border-slate-700">
+                  Gráfico
+                </span>
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 tracking-tight mb-1 dark:text-slate-100">
+                Evolução do custo acumulado
+              </h3>
+              <p className="text-sm text-gray-400 mb-6 dark:text-slate-500">
+                Acompanhe como cada opção evolui mês a mês ao longo do período
+              </p>
+              <CostChart data={chartData} tickInterval={tickInterval} />
+            </div>
+          </div>
+        )}
+
         {/* Erro de exportação */}
         {exportError && (
           <div className="mx-8 sm:mx-10 mb-4 px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700 dark:bg-red-500/10 dark:border-red-500/30 dark:text-red-200" role="alert">
@@ -102,6 +125,8 @@ export function ResultDisplay({ result, input, onClose }: ResultDisplayProps) {
         input={input ?? null}
         cards={cards}
         maxTotal={maxTotal}
+        chartData={chartData}
+        chartTickInterval={tickInterval}
       />
     </section>
   );

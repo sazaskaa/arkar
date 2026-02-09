@@ -233,6 +233,10 @@ html {
 	width: min(980px, 100%);
 	margin: 0;
 	animation: fade-up 0.5s ease both;
+	max-height: calc(100vh - 64px);
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding-right: 2px;
 }
 
 .result-shell--closing {
