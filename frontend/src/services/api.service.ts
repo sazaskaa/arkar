@@ -10,7 +10,12 @@ import type {
   ValidationError,
 } from "../types/calculator.types";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+const API_BASE_URLS = (import.meta.env.VITE_API_URLS ||
+  import.meta.env.VITE_API_URL ||
+  "http://localhost:3001")
+  .split(",")
+  .map((url: string) => url.trim())
+  .filter(Boolean);
 
 type ErrorResponse = {
   error?: string;
@@ -51,17 +56,23 @@ function buildApiError(payload: ErrorResponse | null): ApiError {
 export async function calculateComparison(
   input: CalculationInput
 ): Promise<CalculationResult> {
-  let response: Response;
+  let response: Response | null = null;
 
-  try {
-    response = await fetch(`${API_BASE_URL}/api/calculate`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(input),
-    });
-  } catch {
+  for (const baseUrl of API_BASE_URLS) {
+    try {
+      response = await fetch(`${baseUrl}/api/calculate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(input),
+      });
+      break;
+    } catch {
+    }
+  }
+
+  if (!response) {
     throw new ApiError({ error: NETWORK_ERROR_MESSAGE });
   }
 

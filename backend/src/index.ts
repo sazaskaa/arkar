@@ -22,6 +22,7 @@ app.use(
           origin: [
             "https://arkar.vercel.app",
             "https://arkar.tech",
+            "https://www.arkar.tech",
             ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : []),
           ],
         }
