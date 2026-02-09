@@ -57,6 +57,9 @@ export function ResultOverlay({ children, isClosing, onClose }: ResultOverlayPro
       className={`result-overlay ${isClosing ? "result-overlay--closing" : ""}`}
       role="dialog"
       aria-modal="true"
+      data-lenis-prevent
+      data-lenis-prevent-wheel
+      data-lenis-prevent-touch
       onClick={handleBackdropClick}
     >
       {children}

@@ -14,6 +14,7 @@ import { ResultOverlay } from "./components/ResultOverlay";
 import { SiteInfoSection } from "./components/SiteInfoSection";
 import { useCalculatorApp } from "./hooks/useCalculatorApp";
 import { useTheme } from "./hooks/useTheme";
+import { useLenis } from "./hooks/useLenis";
 
 function App() {
   const { theme, toggleTheme } = useTheme();
@@ -27,6 +28,8 @@ function App() {
     handleCloseResult,
     handleCloseError,
   } = useCalculatorApp();
+
+  useLenis();
 
   return (
     <Routes>

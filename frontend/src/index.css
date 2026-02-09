@@ -176,7 +176,12 @@ html.dark .site-header__theme-toggle:hover {
 }
 
 html {
-	scroll-behavior: smooth;
+	scroll-behavior: auto;
+}
+
+html.modal-open,
+body.modal-open {
+	overflow: hidden;
 }
 
 html.modal-open,
@@ -242,6 +247,9 @@ body.modal-open {
 	overflow-y: auto;
 	overflow-x: hidden;
 	padding-right: 2px;
+	-webkit-overflow-scrolling: touch;
+	overscroll-behavior: contain;
+	touch-action: pan-y;
 }
 
 .result-shell--closing {
