@@ -35,11 +35,11 @@ export function ResultDisplay({ result, input, onClose }: ResultDisplayProps) {
 
   return (
     <section className="result-shell" aria-live="polite">
-      <div className="relative bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-200 overflow-hidden animate-[fade-up_0.6s_ease_both_0.12s]">
+      <div className="relative bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-200 overflow-hidden animate-[fade-up_0.6s_ease_both_0.12s] dark:bg-slate-900 dark:border-slate-800 dark:shadow-[0_20px_60px_rgba(2,6,23,0.55)]">
         {onClose && (
           <button
             onClick={onClose}
-            className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors"
+            className="absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors dark:text-slate-500 dark:hover:text-slate-200"
             aria-label="Fechar resultado"
             type="button"
           >
@@ -49,14 +49,14 @@ export function ResultDisplay({ result, input, onClose }: ResultDisplayProps) {
         {/* Cabeçalho */}
         <div className="p-8 pb-6 sm:p-10 sm:pb-8">
           <div className="flex items-center gap-2 mb-3">
-            <span className="text-[10px] font-semibold tracking-widest text-gray-900 uppercase bg-gray-50 border border-gray-200 px-2 py-0.5 rounded-full">
+            <span className="text-[10px] font-semibold tracking-widest text-gray-900 uppercase bg-gray-50 border border-gray-200 px-2 py-0.5 rounded-full dark:text-slate-200 dark:bg-slate-800 dark:border-slate-700">
               Resultado
             </span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-medium text-gray-900 tracking-tight mb-3 font-display">
+          <h2 className="text-3xl sm:text-4xl font-medium text-gray-900 tracking-tight mb-3 font-display dark:text-slate-100">
             Comparação de custos
           </h2>
-          <p className="text-base text-gray-500 leading-relaxed whitespace-nowrap">
+          <p className="text-base text-gray-500 leading-relaxed whitespace-nowrap dark:text-slate-400">
             Veja o total estimado para cada opção e a recomendação com base no menor custo financeiro ao final do período
           </p>
         </div>
@@ -82,7 +82,7 @@ export function ResultDisplay({ result, input, onClose }: ResultDisplayProps) {
 
         {/* Erro de exportação */}
         {exportError && (
-          <div className="mx-8 sm:mx-10 mb-4 px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700" role="alert">
+          <div className="mx-8 sm:mx-10 mb-4 px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700 dark:bg-red-500/10 dark:border-red-500/30 dark:text-red-200" role="alert">
             {exportError}
           </div>
         )}

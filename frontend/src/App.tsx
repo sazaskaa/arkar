@@ -11,8 +11,10 @@ import { ResultDisplay } from "./components/ResultDisplay";
 import { ResultOverlay } from "./components/ResultOverlay";
 import { SiteInfoSection } from "./components/SiteInfoSection";
 import { useCalculatorApp } from "./hooks/useCalculatorApp";
+import { useTheme } from "./hooks/useTheme";
 
 function App() {
+  const { theme, toggleTheme } = useTheme();
   const {
     result,
     lastInput,
@@ -26,7 +28,7 @@ function App() {
 
   return (
     <>
-      <Header />
+      <Header theme={theme} onToggleTheme={toggleTheme} />
       <main className="app-content">
         <CalculatorForm onSubmit={handleCalculate} isLoading={isLoading} />
         <SiteInfoSection />
@@ -43,7 +45,7 @@ function App() {
               <button
                 type="button"
                 onClick={handleCloseError}
-                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-800 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-900"
+                className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-800 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-900 dark:bg-slate-200 dark:text-slate-900 dark:hover:bg-white"
               >
                 <RotateCcw className="h-4 w-4" strokeWidth={1.6} />
                 Tentar novamente

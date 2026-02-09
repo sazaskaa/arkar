@@ -23,8 +23,8 @@ export function ResultCard({ card, isBest, maxTotal }: ResultCardProps) {
     <article
       className={
         isBest
-          ? "relative group rounded-xl border-2 border-orange-600/20 bg-orange-50/20 p-5 transition-all hover:border-orange-600/30"
-          : "relative rounded-xl border border-gray-200 bg-white p-5 hover:border-gray-300 transition-all"
+          ? "relative group rounded-xl border-2 border-orange-600/20 bg-orange-50/20 p-5 transition-all hover:border-orange-600/30 dark:border-orange-400/30 dark:bg-orange-500/10"
+          : "relative rounded-xl border border-gray-200 bg-white p-5 hover:border-gray-300 transition-all dark:border-slate-800 dark:bg-slate-900/60 dark:hover:border-slate-700"
       }
       aria-label={ariaLabel}
     >
@@ -38,21 +38,31 @@ export function ResultCard({ card, isBest, maxTotal }: ResultCardProps) {
 
       <div className="mt-2 space-y-4">
         <div>
-          <h3 className={`text-sm font-medium ${isBest ? "text-gray-900" : "text-gray-600"}`}>
+          <h3
+            className={`text-sm font-medium ${
+              isBest ? "text-gray-900 dark:text-slate-100" : "text-gray-600 dark:text-slate-400"
+            }`}
+          >
             {card.title}
           </h3>
-          <p className={`mt-2 text-2xl tracking-tight text-gray-900 ${isBest ? "font-semibold" : "font-medium"}`}>
+          <p
+            className={`mt-2 text-2xl tracking-tight text-gray-900 dark:text-slate-100 ${
+              isBest ? "font-semibold" : "font-medium"
+            }`}
+          >
             {formatCurrency(card.total)}
           </p>
           {card.meta && (
-            <p className="mt-1 text-xs text-gray-400">
+            <p className="mt-1 text-xs text-gray-400 dark:text-slate-500">
               {card.meta}
             </p>
           )}
         </div>
-        <div className="w-full h-1 bg-gray-100 rounded-full overflow-hidden">
+        <div className="w-full h-1 bg-gray-100 rounded-full overflow-hidden dark:bg-slate-800">
           <div
-            className={`h-full rounded-full transition-all duration-700 ${isBest ? "bg-orange-500" : "bg-gray-300"}`}
+            className={`h-full rounded-full transition-all duration-700 ${
+              isBest ? "bg-orange-500" : "bg-gray-300 dark:bg-slate-600"
+            }`}
             style={{ width: `${barWidth}%` }}
           />
         </div>
