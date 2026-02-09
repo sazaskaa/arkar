@@ -18,7 +18,13 @@ const isProduction = process.env.NODE_ENV === "production";
 app.use(
   cors(
     isProduction
-      ? { origin: process.env.FRONTEND_URL || "https://arkar.vercel.app" }
+      ? {
+          origin: [
+            "https://arkar.vercel.app",
+            "https://arkar.tech",
+            ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : []),
+          ],
+        }
       : undefined
   )
 );
