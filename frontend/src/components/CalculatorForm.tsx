@@ -21,10 +21,10 @@ export function CalculatorForm({ onSubmit, isLoading }: CalculatorFormProps) {
       <header className="text-center animate-[fade-up_0.5s_ease_both]">
         <p className="text-[0.72rem] uppercase tracking-[0.24em] text-slate-500">Comparador Arkar</p>
         <h1 className="my-2 font-['Fraunces'] text-[clamp(2.2rem,4vw,3.4rem)] tracking-[-0.02em] text-slate-900">
-          Comprar ou alugar?
+          Comprar, alugar ou financiar?
         </h1>
         <p className="text-[1.05rem] text-slate-500">
-          Entenda o custo total de comprar ou alugar um carro e tome a melhor decisão para o seu momento
+          Entenda o custo total de comprar, alugar ou financiar um carro e tome a melhor decisão para o seu momento
         </p>
       </header>
 

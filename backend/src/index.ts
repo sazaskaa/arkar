@@ -1,5 +1,9 @@
 import cors from "cors";
 import express from "express";
+import fs from "fs";
+import path from "path";
+import yaml from "js-yaml";
+import swaggerUi from "swagger-ui-express";
 import calculatorRoutes from "./routes/calculator.routes";
 
 /**
@@ -20,6 +24,9 @@ app.use(
 );
 app.use(express.json());
 
+const openApiPath = path.resolve(__dirname, "..", "openapi.yaml");
+const openApiSpec = yaml.load(fs.readFileSync(openApiPath, "utf8")) as object;
+
 // Health check básico
 app.get("/", (_req, res) => {
   res.json({ status: "ok" });
@@ -27,6 +34,9 @@ app.get("/", (_req, res) => {
 
 // Monta rotas da calculadora sob /api
 app.use("/api", calculatorRoutes);
+
+// Swagger UI em /docs
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(openApiSpec));
 
 const port = Number(process.env.PORT) || 3001;
 app.listen(port, () => {

@@ -1,0 +1,186 @@
+openapi: 3.0.3
+info:
+  title: Arkar API
+  version: 1.0.0
+  description: API para comparador de aluguel vs compra de carro.
+servers:
+  - url: http://localhost:3001
+    description: Desenvolvimento local
+  - url: https://arkar-production.up.railway.app
+    description: Produção
+paths:
+  /api/calculate:
+    post:
+      summary: Calcular comparação de aluguel vs compra
+      operationId: calcularComparacao
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CalculationInput"
+            examples:
+              basic:
+                summary: Entrada de exemplo
+                value:
+                  carPrice: 50000
+                  monthlyRent: 2000
+                  interestRate: 1.5
+                  financingTerm: 48
+                  downPayment: 10000
+                  comparisonPeriod: 48
+      responses:
+        "200":
+          description: Resultado do cálculo
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CalculationResponse"
+              examples:
+                success:
+                  summary: Resposta de sucesso
+                  value:
+                    cash:
+                      total: 50000
+                    financing:
+                      monthlyPayment: 1175.04
+                      total: 66402.01
+                    rental:
+                      total: 96000
+                    recommendation: cash
+                    savings:
+                      vsFinancing: 16402.01
+                      vsRental: 46000
+        "400":
+          description: Erro de validação
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponse"
+              examples:
+                validation:
+                  summary: Entrada inválida
+                  value:
+                    error: Dados de entrada invalidos
+                    details:
+                      - field: carPrice
+                        message: O valor do carro e obrigatorio e deve ser maior que zero
+        "500":
+          description: Erro interno do servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    CalculationInput:
+      type: object
+      required:
+        - carPrice
+        - monthlyRent
+        - interestRate
+        - financingTerm
+      properties:
+        carPrice:
+          type: number
+          minimum: 0
+          exclusiveMinimum: true
+          description: Valor do carro em reais
+          example: 50000
+        monthlyRent:
+          type: number
+          minimum: 0
+          exclusiveMinimum: true
+          description: Valor do aluguel mensal em reais
+          example: 2000
+        interestRate:
+          type: number
+          minimum: 0
+          exclusiveMinimum: true
+          description: Taxa de juros mensal em percentual
+          example: 1.5
+        financingTerm:
+          type: integer
+          minimum: 0
+          exclusiveMinimum: true
+          description: Prazo do financiamento em meses
+          example: 48
+        downPayment:
+          type: number
+          minimum: 0
+          description: Entrada (opcional). Se fornecida, deve ser não-negativa e menor que o valor do carro.
+          example: 10000
+        comparisonPeriod:
+          type: integer
+          minimum: 0
+          exclusiveMinimum: true
+          description: Período de comparação em meses (opcional). Se não fornecido, usa o financingTerm.
+          example: 48
+    CalculationResponse:
+      type: object
+      properties:
+        cash:
+          type: object
+          properties:
+            total:
+              type: number
+              example: 50000
+        financing:
+          type: object
+          properties:
+            monthlyPayment:
+              type: number
+              example: 1175.04
+            total:
+              type: number
+              example: 66402.01
+        rental:
+          type: object
+          properties:
+            total:
+              type: number
+              example: 96000
+        recommendation:
+          type: string
+          enum:
+            - cash
+            - financing
+            - rental
+        savings:
+          type: object
+          properties:
+            vsFinancing:
+              type: number
+              example: 16402.01
+            vsRental:
+              type: number
+              example: 46000
+    ValidationErrorDetail:
+      type: object
+      properties:
+        field:
+          type: string
+          description: Campo que gerou o erro
+          example: carPrice
+        message:
+          type: string
+          description: Mensagem de erro em português
+          example: O valor do carro é obrigatório e deve ser maior que zero
+    ValidationErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Mensagem de erro geral
+          example: Dados de entrada inválidos
+        details:
+          type: array
+          description: Lista de erros de validação por campo
+          items:
+            $ref: "#/components/schemas/ValidationErrorDetail"
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Erro interno do servidor

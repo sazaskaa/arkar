@@ -63,6 +63,9 @@ O frontend sobe em `http://localhost:5173`.
 
 - `GET /` — retorna `{ "status": "ok" }` (health check)
 - `POST /api/calculate` — recebe os dados e retorna o comparativo
+- `GET /docs` — Swagger UI com documentação interativa da API
+
+> **Nota:** o Swagger UI foi mantido habilitado neste deploy de demonstração para facilitar a avaliação dos endpoints. Em um ambiente produtivo real, ele seria restrito via autenticação ou desabilitado via variáveis de ambiente.
 
 Exemplo de request:
 
