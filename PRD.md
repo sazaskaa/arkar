@@ -10,7 +10,7 @@ Criar um site chamado "Arkar" que compare se vale mais a pena **alugar** ou **co
 
 | Camada           | Tecnologia                            | Justificativa                                                                                |
 | ---------------- | ------------------------------------- | -------------------------------------------------------------------------------------------- |
-| **Frontend**     | React + TypeScript + Vite             | Vite é mais rápido e leve que CRA, TypeScript garante tipagem                                |
+| **Frontend**     | React + TypeScript + Vite + React Router | Vite é mais rápido e leve que CRA, TypeScript garante tipagem, React Router para roteamento SPA |
 | **Estilos**      | CSS + Tailwind (configurado)          | Base pronta para utilitários, mas a UI usa CSS customizado                                   |
 | **Backend**      | Node.js + Express + TypeScript + CORS | API simples e performática, TS para consistência, CORS para permitir requisições do frontend |
 | **PDF Export**   | html2canvas + jsPDF                   | Geração de relatório em PDF a partir do resultado                                            |
@@ -112,6 +112,7 @@ arkar/
 - Tema claro/escuro com persistência local
 - Overlay de resultado com fechamento por clique/ESC, rolagem interna para acessar todo o conteúdo
 - Seção informativa com metodologia e FAQ
+- Página de erro 404 customizada com design retrô inspirado no Windows BSOD
 
 ---
 
@@ -216,7 +217,7 @@ Swagger UI para documentação interativa (OpenAPI).
 
 ## Status Atual
 
-MVP implementado (frontend, backend e integração), com refinamentos de UI, exportação em PDF, tema claro/escuro e gráfico interativo de evolução de custos. Consulte TASKS.md e specs/ para detalhes técnicos e checklist finalizado.
+MVP implementado (frontend, backend e integração), com refinamentos de UI, exportação em PDF, tema claro/escuro, gráfico interativo de evolução de custos e página de erro 404 customizada. Consulte TASKS.md e specs/ para detalhes técnicos e checklist finalizado.
 
 ---
 

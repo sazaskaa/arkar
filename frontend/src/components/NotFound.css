@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css?family=VT323');
+
+.bsod-wrapper {
+  --light-grey: #e0e2f4;
+  --grey: #aaaaaa;
+  --blue: #0414a7;
+  --base-font-size: 20px;
+  --font-stack: 'VT323', monospace;
+  
+  background: var(--blue);
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+}
+
+.bsod-wrapper h1,
+.bsod-wrapper h2,
+.bsod-wrapper h3,
+.bsod-wrapper h4,
+.bsod-wrapper p,
+.bsod-wrapper a {
+  color: var(--light-grey);
+}
+
+.bsod-wrapper p {
+  font: normal var(--base-font-size)/1.25rem var(--font-stack);
+}
+
+.bsod-wrapper h1 {
+  font: normal 2.75rem/1.05em var(--font-stack);
+}
+
+.bsod-wrapper h2 {
+  font: normal 2.25rem/1.25em var(--font-stack);
+}
+
+.bsod-wrapper h3 {
+  font: lighter 1.5rem/1.25em var(--font-stack);
+}
+
+.bsod-wrapper h4 {
+  font: lighter 1.125rem/1.2222222em var(--font-stack);
+}
+
+.bsod-container {
+  width: 90%;
+  max-width: 640px;
+  padding: 0;
+}
+
+.bsod {
+  width: 100%;
+  padding: 0;
+}
+
+.bsod .neg {
+  text-align: center;
+  color: var(--blue);
+}
+
+.bsod .neg .bg {
+  background: var(--grey);
+  padding: 0 15px 2px 13px;
+}
+
+.bsod .title {
+  margin-bottom: 50px;
+}
+
+.bsod .nav {
+  margin-top: 35px;
+  text-align: center;
+}
+
+.bsod .nav .link {
+  text-decoration: none;
+  padding: 0 9px 2px 8px;
+  color: var(--light-grey);
+}
+
+.bsod .nav .link:hover,
+.bsod .nav .link:focus {
+  background: var(--grey);
+  color: var(--blue);
+}
