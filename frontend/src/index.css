@@ -179,6 +179,11 @@ html {
 	scroll-behavior: smooth;
 }
 
+html.modal-open,
+body.modal-open {
+	overflow: hidden;
+}
+
 
 @keyframes fade-up {
 	from {

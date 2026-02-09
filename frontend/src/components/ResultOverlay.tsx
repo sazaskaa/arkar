@@ -27,6 +27,25 @@ export function ResultOverlay({ children, isClosing, onClose }: ResultOverlayPro
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
 
+  useEffect(() => {
+    const root = document.documentElement;
+    const body = document.body;
+
+    if (isClosing) {
+      root.classList.remove("modal-open");
+      body.classList.remove("modal-open");
+      return;
+    }
+
+    root.classList.add("modal-open");
+    body.classList.add("modal-open");
+
+    return () => {
+      root.classList.remove("modal-open");
+      body.classList.remove("modal-open");
+    };
+  }, [isClosing]);
+
   const handleBackdropClick = (event: MouseEvent<HTMLDivElement>) => {
     if (event.target === event.currentTarget) {
       onClose?.();

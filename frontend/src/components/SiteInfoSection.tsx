@@ -33,7 +33,7 @@ export function SiteInfoSection() {
             Números reais, decisões claras
           </h2>
           <p className="mt-4 text-[1.08rem] leading-relaxed text-slate-600 dark:text-slate-400">
-            Transformamos valores de entrada em uma análise financeira estruturada.
+            Transformamos valores de entrada em uma análise financeira estruturada.<br />
             Sem palpites, apenas matemática.
           </p>
         </header>

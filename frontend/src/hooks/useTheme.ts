@@ -12,8 +12,7 @@ const resolveInitialTheme = (): Theme => {
     return saved;
   }
 
-  const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
-  return prefersDark ? "dark" : "light";
+  return "light";
 };
 
 export const useTheme = () => {

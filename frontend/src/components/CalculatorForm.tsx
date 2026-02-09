@@ -134,7 +134,7 @@ export function CalculatorForm({ onSubmit, isLoading }: CalculatorFormProps) {
               type="submit"
               disabled={isLoading}
             >
-              <span className="h-5 w-5 text-white/70" aria-hidden="true">
+              <span className="h-5 w-5 text-current" aria-hidden="true">
                 <Calculator className="h-5 w-5" strokeWidth={1.6} />
               </span>
               {isLoading ? "Calculando..." : "Calcular"}
