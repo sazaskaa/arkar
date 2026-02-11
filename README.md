@@ -98,7 +98,7 @@ Exemplo de request:
 ## Deploy
 
 - Frontend (Vercel): https://arkar-eight.vercel.app/ ou https://arkar.tech
-- Backend (Railway): https://arkar-production.up.railway.app
+- Backend (Railway): https://arkar-production.up.railway.app ou https://api.arkar.tech/ & https://api.arkar.tech/docs (público apenas para fins de apresentação)
 
 ## Estrutura do repositório
 
