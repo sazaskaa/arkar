@@ -1,6 +1,6 @@
 /**
- * Secao informativa abaixo do formulario, com explicacao e FAQ.
- * Design enriquecido com animacoes, cards visuais e hierarquia clara.
+ * Seção informativa abaixo do formulário, com explicação e FAQ.
+ * Design enriquecido com animações, cards visuais e hierarquia clara.
  */
 import { useEffect, useRef, useState } from "react";
 import { Calculator, TrendingUp, FileText, CheckCircle2, HelpCircle, Shield } from "lucide-react";
