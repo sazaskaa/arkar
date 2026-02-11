@@ -193,7 +193,7 @@ export const PDFReportTemplate = forwardRef<HTMLDivElement, PDFReportTemplatePro
                   <td style={{ fontSize: "10px", color: "#d1d5db", textAlign: "left" }}>
                     Arkar — Simulação educativa. Não constitui aconselhamento financeiro.
                   </td>
-                  <td style={{ fontSize: "10px", color: "#d1d5db", textAlign: "right" }}>arkar.com.br</td>
+                  <td style={{ fontSize: "10px", color: "#d1d5db", textAlign: "right" }}>arkar.tech</td>
                 </tr>
               </tbody>
             </table>
